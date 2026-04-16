@@ -280,6 +280,191 @@
 
     /* Clearfix */
     .clearfix::after { content: ''; display: table; clear: both; }
+
+    /* ════════════════════════════════════════════
+       MOBILE RESPONSIVE — Tablet ≤ 900px
+    ════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      /* Hero */
+      .hero-inner { grid-template-columns: 1fr; gap: 32px; padding: 0 24px; }
+      .hero-text h1 { font-size: 1.9rem; }
+      .carousel-main { height: 340px; }
+      .carousel-thumb { width: 72px; height: 68px; }
+
+      /* Options */
+      .options { padding: 40px 24px; flex-direction: column; gap: 28px; }
+
+      /* Spine */
+      .spine { padding: 60px 24px; }
+      .spine-grid { grid-template-columns: 1fr; gap: 36px; }
+      .spine-video img { height: 340px; }
+      .spine-heading { font-size: 1.4rem; }
+
+      /* Video section */
+      .video-section { padding: 60px 24px; grid-template-columns: 1fr; gap: 36px; }
+      .vs-heading { font-size: 1.4rem; }
+
+      /* Choice */
+      .choice { padding: 60px 24px; }
+      .choice-heading { font-size: 1.9rem; }
+      .choice-grid { grid-template-columns: 1fr; }
+      .choice-col { padding: 28px; }
+
+      /* Results */
+      .results { padding: 60px 24px; }
+      .results-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+
+      /* Steps */
+      .steps-header { padding: 48px 24px 24px; }
+      .steps-detail { padding: 32px 24px 48px; grid-template-columns: 1fr; gap: 28px; }
+
+      /* CTA Banner */
+      .cta-banner { padding: 48px 24px; }
+      .cta-banner h2 { font-size: 1.4rem; }
+
+      /* Offer */
+      .offer-section { padding: 40px 24px 48px; grid-template-columns: 1fr; gap: 28px; }
+      .offer-img-placeholder { min-height: 280px; }
+      .offer-box { padding: 28px; }
+
+      /* Reviews */
+      .reviews-section { padding: 60px 20px; }
+      .review-card { flex: 0 0 calc((100% - 20px) / 2); }
+
+      /* Guarantee */
+      .guarantee-section { padding: 60px 24px; }
+      .guarantee-content { flex-direction: column; gap: 24px; }
+      .guarantee-badge img { width: 100%; }
+
+      /* Noticed */
+      .noticed { padding: 48px 24px; }
+      .noticed img { height: auto; max-width: 100%; }
+
+      /* FAQ */
+      .faq { padding: 60px 24px; }
+
+      /* Footer */
+      .footer { padding: 40px 24px; }
+      .footer-links { flex-wrap: wrap; gap: 12px; }
+    }
+
+    /* ════════════════════════════════════════════
+       MOBILE RESPONSIVE — Phone ≤ 600px
+    ════════════════════════════════════════════ */
+    @media (max-width: 600px) {
+      /* Banner */
+      .banner img { height: 48px; }
+
+      /* Hero */
+      .hero { padding: 24px 0 16px; }
+      .hero-logo { margin-bottom: 20px; }
+      .hero-logo img { height: 32px; }
+      .hero-inner { padding: 0 16px; gap: 24px; }
+      .hero-text h1 { font-size: 1.6rem; }
+      .hero-subtitle { font-size: 0.92rem; margin-bottom: 20px; }
+      .hero-checklist { margin-bottom: 24px; gap: 10px; }
+      .hero-checklist li { font-size: 0.9rem; }
+      .btn-cta { font-size: 1rem; padding: 16px 20px; }
+      .carousel-main { height: 260px; }
+      .carousel-thumb { width: 60px; height: 56px; border-radius: 8px; }
+      .carousel-thumbs { gap: 4px; }
+      .carousel-btn { width: 34px; height: 34px; font-size: 14px; }
+      .hero-tp-stars .tp-star { width: 20px; height: 20px; }
+      .hero-tp-text { font-size: 0.82rem; }
+
+      /* Hero Testimonial */
+      .hero-btm { padding: 18px; }
+      .hero-btm-inner { gap: 12px; }
+      .hero-btm-avatar { width: 52px; height: 52px; }
+      .hero-btm-quote { font-size: 0.85rem; }
+      .hero-btm-meta { padding-left: 0; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+
+      /* Marquee */
+      .marquee-logo { height: 32px; }
+      .marquee-track { gap: 48px; }
+
+      /* Options */
+      .options { padding: 28px 16px; gap: 24px; }
+      .option-icon { width: 64px; height: 64px; }
+      .option-text h3 { font-size: 0.9rem; }
+      .option-text p { font-size: 0.85rem; }
+
+      /* Spine */
+      .spine { padding: 48px 16px; }
+      .spine-heading { font-size: 1.25rem; }
+      .spine-divider { margin-bottom: 36px; }
+      .spine-video img { height: 240px; }
+      .spine-sub-heading { font-size: 1.25rem; }
+      .spine-text { font-size: 0.9rem; }
+
+      /* Video Section */
+      .video-section { padding: 48px 16px; gap: 28px; }
+      .vs-heading { font-size: 1.25rem; }
+      .vs-text { font-size: 0.9rem; }
+
+      /* How heading */
+      .how-heading { font-size: 1.25rem; }
+
+      /* Choice */
+      .choice { padding: 48px 16px; }
+      .choice-heading { font-size: 1.5rem; }
+      .choice-sub { font-size: 0.95rem; margin-bottom: 28px; }
+      .choice-col { padding: 20px 16px; }
+      .choice-item img { width: 30px; height: 30px; }
+
+      /* Results */
+      .results { padding: 48px 16px; }
+      .results-heading { font-size: 1.25rem; }
+      .results-grid { grid-template-columns: 1fr; gap: 16px; }
+
+      /* Steps */
+      .steps-header { padding: 40px 16px 20px; }
+      .steps-header h2 { font-size: 1.25rem; }
+      .steps-detail { padding: 24px 16px 40px; }
+
+      /* CTA Banner */
+      .cta-banner { padding: 40px 16px; }
+      .cta-banner h2 { font-size: 1.2rem; }
+
+      /* Offer */
+      .offer-section { padding: 28px 16px 40px; }
+      .offer-img-placeholder { display: none; }
+      .offer-box { padding: 20px 16px; }
+      .offer-box h2 { font-size: 1.2rem; }
+      .offer-box p { font-size: 0.92rem; }
+      .offer-list li { font-size: 0.92rem; }
+
+      /* Payment logos */
+      .offer-payment-row { gap: 6px; }
+
+      /* Reviews */
+      .reviews-section { padding: 48px 12px; }
+      .reviews-heading { font-size: 1.25rem; }
+      .reviews-outer { gap: 6px; }
+      .reviews-nav-btn { width: 34px; height: 34px; font-size: 16px; flex-shrink: 0; }
+      .review-card { flex: 0 0 100%; }
+      .reviews-meta { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+      /* Guarantee */
+      .guarantee-section { padding: 48px 16px; }
+      .guarantee-section h2 { font-size: 1.25rem; margin-bottom: 24px; }
+      .guarantee-content p { font-size: 0.9rem; line-height: 1.7; }
+
+      /* Noticed */
+      .noticed { padding: 40px 16px; }
+      .noticed h2 { font-size: 1.25rem; }
+
+      /* FAQ */
+      .faq { padding: 48px 16px; }
+      .faq h2 { font-size: 1.25rem; margin-bottom: 28px; }
+      .faq-question { font-size: 0.92rem; padding: 16px 18px; }
+      .faq-answer { font-size: 0.88rem; }
+
+      /* Footer */
+      .footer { padding: 32px 16px; }
+      .footer p { font-size: 0.78rem; }
+      .footer-links { flex-direction: column; align-items: center; gap: 8px; }
+    }
   </style>
 </head>
 <body>
