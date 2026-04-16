@@ -362,7 +362,7 @@
     ════════════════════════════════════════════ */
     @media (max-width: 600px) {
       /* Banner */
-      .banner img { height: 48px; }
+      .banner img { height: auto; }
 
       /* Hero */
       .hero { padding: 24px 0 16px; }
@@ -485,7 +485,10 @@
        BANNER
   ═══════════════════════════════════════════ -->
   <div class="banner">
-    <img src="images/banner.png" alt="Spring Sale – Up to 67% Off" />
+    <picture>
+      <source media="(max-width: 600px)" srcset="images/banner-mobile.png" />
+      <img src="images/banner.png" alt="Spring Sale – Up to 67% Off" />
+    </picture>
   </div>
 
   <!-- ═══════════════════════════════════════════
