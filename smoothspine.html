@@ -142,7 +142,11 @@
     .vs-text { font-size: 1rem; color: var(--on-surface); margin-bottom: 14px; line-height: 1.7; }
     .vs-bold { font-weight: 700; color: var(--primary); }
 
-    /* ── How It Works + 90-Day (inline grids) ── */
+    /* ── How It Works + 90-Day ── */
+    .how-section { background: var(--surface); padding: 80px 120px; }
+    .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; align-items: start; }
+    .how-grid:last-child { margin-bottom: 0; }
+    .how-grid > * { min-width: 0; }
     .how-heading { font-size: 1.75rem; font-weight: 700; color: var(--primary); margin-bottom: 20px; letter-spacing: -0.01em; }
     .how-step { font-size: 1rem; color: var(--on-surface); margin-bottom: 14px; line-height: 1.7; }
 
@@ -304,6 +308,11 @@
       .video-section { padding: 60px 24px; grid-template-columns: 1fr; gap: 36px; }
       .vs-heading { font-size: 1.4rem; }
 
+      /* How section */
+      .how-section { padding: 60px 24px; }
+      .how-grid { grid-template-columns: 1fr; gap: 32px; margin-bottom: 48px; }
+      .how-heading { font-size: 1.4rem; }
+
       /* Choice */
       .choice { padding: 60px 24px; }
       .choice-heading { font-size: 1.9rem; }
@@ -402,7 +411,9 @@
       .vs-heading { font-size: 1.25rem; }
       .vs-text { font-size: 0.9rem; }
 
-      /* How heading */
+      /* How section */
+      .how-section { padding: 48px 16px; }
+      .how-grid { gap: 24px; margin-bottom: 36px; }
       .how-heading { font-size: 1.25rem; }
 
       /* Choice */
@@ -795,11 +806,11 @@
   <!-- ═══════════════════════════════════════════
        HOW IT WORKS + 90-DAY GUARANTEE
   ═══════════════════════════════════════════ -->
-  <section style="background:var(--surface); padding: 80px 120px;">
+  <section class="how-section">
     <!-- How it works -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; margin-bottom:60px; align-items:start;">
+    <div class="how-grid">
       <div class="video-wrap">
-        <img src="images/how-to-use.png" alt="How to use SmoothSpine" style="border-radius:15px; width:100%;" />
+        <img src="images/how-to-use.png" alt="How to use ReliefMD" style="border-radius:15px; width:100%;" />
       </div>
       <div>
         <h2 class="how-heading">How ReliefMD &ldquo;Triple Mending&rdquo; Massager Works</h2>
@@ -813,7 +824,7 @@
     </div>
 
     <!-- 90-day guarantee -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start;">
+    <div class="how-grid how-grid--reverse">
       <div>
         <h2 class="how-heading">Try It For 90 Days, 100% Risk-Free</h2>
         <p class="how-step">Here&rsquo;s the deal: We believe in this product so much that <strong>we don&rsquo;t want you to spend a dime until you are 100% certain that it works for you.</strong></p>
