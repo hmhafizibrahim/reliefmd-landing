@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CleanFleet — IoT Floor Cleaning Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue-dark: #0d2d5e;
+      --blue-mid: #1a4a8a;
+      --blue-hero: #1756a9;
+      --blue-accent: #2d7dd2;
+      --blue-light: #e8f1fb;
+      --amber: #f5a623;
+      --amber-bg: #fffbf0;
+      --amber-light: #fef3c7;
+      --green: #22c55e;
+      --green-light: #dcfce7;
+      --red: #ef4444;
+      --red-light: #fee2e2;
+      --orange: #f97316;
+      --bg: #eef1f6;
+      --card: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e2e8f0;
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text-primary);
+    }
+
+    /* ── LAYOUT ── */
+    .app { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--blue-dark);
+      padding: 0 32px;
+      display: flex; align-items: center; gap: 32px;
+      height: 64px;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      color: #fff; font-size: 18px; font-weight: 700; letter-spacing: -0.3px;
+      text-decoration: none; flex-shrink: 0;
+    }
+    .nav-logo svg { width: 32px; height: 32px; }
+
+    .nav-divider { width: 1px; height: 28px; background: rgba(255,255,255,0.15); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 4px; flex: 1;
+    }
+    .nav-link {
+      display: flex; align-items: center; gap: 7px;
+      padding: 7px 14px; border-radius: 10px;
+      color: rgba(255,255,255,0.65); font-size: 13.5px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+      border: none; background: none;
+    }
+    .nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .nav-link.active { color: #fff; background: rgba(255,255,255,0.12); }
+    .nav-link svg { width: 16px; height: 16px; opacity: 0.8; }
+
+    .nav-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
+    .nav-bell {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: rgba(255,255,255,0.1); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7); position: relative;
+      transition: background 0.2s;
+    }
+    .nav-bell:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .nav-bell .badge {
+      position: absolute; top: 7px; right: 7px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #ef4444; border: 2px solid var(--blue-dark);
+    }
+
+    .nav-search {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.1); border-radius: 10px;
+      padding: 0 14px; height: 38px; width: 200px;
+      color: rgba(255,255,255,0.5); font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s;
+    }
+    .nav-search:focus-within { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.25); }
+    .nav-search input { background: none; border: none; outline: none; color: #fff; font-size: 13px; width: 100%; }
+    .nav-search input::placeholder { color: rgba(255,255,255,0.45); }
+    .nav-search svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    .nav-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, #2d7dd2, #1a4a8a);
+      border: 2px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+
+    /* ── MAIN ── */
+    main { flex: 1; padding: 0; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-mid) 40%, #2160c4 70%, #1e78e8 100%);
+      padding: 40px 40px 0;
+      position: relative; overflow: hidden;
+      min-height: 320px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(45,125,210,0.3) 0%, transparent 60%);
+    }
+
+    .hero-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      position: relative; z-index: 2;
+    }
+
+    .hero-left { flex: 1; }
+
+    .hero-subtitle {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px; padding: 4px 12px;
+      color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .hero-subtitle .dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; }
+
+    .hero-title {
+      font-size: 72px; font-weight: 800; color: #fff;
+      letter-spacing: -3px; line-height: 1; margin-bottom: 28px;
+    }
+
+    .hero-metrics { display: flex; align-items: center; gap: 40px; }
+    .metric-item { }
+    .metric-label {
+      display: flex; align-items: center; gap: 6px;
+      color: rgba(255,255,255,0.6); font-size: 12.5px; font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .metric-label svg { width: 14px; height: 14px; }
+    .metric-value {
+      color: #fff; font-size: 34px; font-weight: 700; letter-spacing: -1px;
+    }
+    .metric-divider { width: 1px; height: 50px; background: rgba(255,255,255,0.15); }
+
+    /* Hero machine visual */
+    .hero-visual {
+      position: relative; width: 380px; height: 280px; flex-shrink: 0;
+      display: flex; align-items: flex-end; justify-content: center;
+    }
+
+    .machine-scene {
+      position: relative; width: 260px; height: 240px;
+    }
+
+    .machine-body {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 180px; height: 160px;
+    }
+
+    /* Hero info tags */
+    .hero-tag {
+      position: absolute; background: #fff; border-radius: 20px;
+      padding: 5px 12px; display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600; color: var(--text-primary);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15); white-space: nowrap;
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero-tag .tag-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .hero-tag.t1 { top: 20px; right: 60px; animation-delay: 0s; }
+    .hero-tag.t2 { top: 90px; right: 10px; animation-delay: 0.8s; }
+    .hero-tag.t3 { top: 50px; left: 30px; animation-delay: 1.6s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* ── CONTENT GRID ── */
+    .content {
+      padding: 28px 40px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 340px;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .card-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
+    .card-link {
+      font-size: 12.5px; font-weight: 500; color: var(--blue-accent);
+      cursor: pointer; text-decoration: none; border: none; background: none;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* ── PERFORMANCE CHART CARD ── */
+    .chart-card {
+      background: #0f1c36;
+      border-radius: var(--radius);
+      padding: 24px;
+      grid-column: 1;
+    }
+    .chart-card .card-title { color: #fff; }
+    .chart-card .card-link { color: rgba(255,255,255,0.5); }
+
+    .chart-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1); border-radius: 20px;
+      padding: 5px 12px; color: #fff; font-size: 12.5px; font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .chart-badge svg { width: 14px; height: 14px; color: #4ade80; }
+
+    .chart-wrap { height: 160px; position: relative; }
+
+    /* ── ALERTS CARD ── */
+    .alerts-card {
+      background: #fffbee;
+      border-radius: var(--radius);
+      padding: 24px;
+      grid-column: 2;
+      border: 1px solid #fde68a;
+    }
+    .alerts-card .card-title { color: #92400e; }
+    .alerts-card .card-link { color: #b45309; }
+
+    .alert-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .alert-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .alert-icon {
+      width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+    .alert-icon.warn { background: #fff7ed; }
+    .alert-icon.danger { background: #fef2f2; }
+    .alert-icon.ok { background: var(--green-light); }
+
+    .alert-info { flex: 1; }
+    .alert-machine { font-size: 11.5px; color: #b45309; font-weight: 500; margin-bottom: 2px; }
+    .alert-desc { font-size: 14px; font-weight: 600; color: #1c1c1c; }
+
+    .alert-status {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 13px;
+    }
+    .alert-status.ok { background: var(--green); color: #fff; }
+    .alert-status.danger { background: var(--red); color: #fff; }
+    .alert-status.warn { background: var(--amber); color: #fff; }
+
+    /* ── ACTIVITY CARD ── */
+    .activity-card {
+      grid-column: 3;
+      grid-row: 1 / 3;
+    }
+
+    .week-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .week-days { display: flex; gap: 4px; }
+    .week-day {
+      width: 40px; display: flex; flex-direction: column; align-items: center;
+      gap: 4px; padding: 6px 4px; border-radius: 10px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .week-day:hover { background: var(--blue-light); }
+    .week-day.active { background: var(--blue-dark); }
+    .week-day .day-name { font-size: 10.5px; font-weight: 500; color: var(--text-muted); }
+    .week-day.active .day-name { color: rgba(255,255,255,0.7); }
+    .week-day .day-num { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+    .week-day.active .day-num { color: #fff; }
+
+    .activity-chart-wrap { height: 110px; margin-bottom: 20px; }
+
+    .schedule-label { font-size: 11px; font-weight: 600; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 12px; }
+
+    .schedule-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .schedule-item:last-child { border-bottom: none; }
+
+    .schedule-left { }
+    .schedule-task { font-size: 13.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; }
+    .schedule-time { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-muted); }
+    .schedule-time svg { width: 11px; height: 11px; }
+
+    .schedule-badge {
+      font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px;
+    }
+    .schedule-badge.scheduled { background: #e0e7ff; color: #4338ca; }
+    .schedule-badge.completed { background: var(--green-light); color: #15803d; }
+    .schedule-badge.inprogress { background: #fff7ed; color: #c2410c; }
+    .schedule-badge.pending { background: #f1f5f9; color: #475569; }
+
+    /* ── TABLE CARD ── */
+    .table-card { grid-column: 1 / 3; }
+
+    .table-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .filter-tabs { display: flex; gap: 6px; }
+    .filter-tab {
+      padding: 5px 12px; border-radius: 8px; font-size: 12.5px; font-weight: 500;
+      border: none; cursor: pointer; transition: all 0.15s;
+      background: var(--bg); color: var(--text-secondary);
+    }
+    .filter-tab.active { background: var(--blue-dark); color: #fff; }
+    .filter-tab:hover:not(.active) { background: var(--blue-light); color: var(--blue-dark); }
+
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { border-bottom: 1px solid var(--border); }
+    thead th {
+      padding: 0 12px 12px;
+      font-size: 11px; font-weight: 600; color: var(--text-muted);
+      letter-spacing: 0.5px; text-transform: uppercase; text-align: left;
+    }
+    thead th:first-child { padding-left: 0; }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s; cursor: default;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: #f8fafc; }
+
+    tbody td {
+      padding: 14px 12px; font-size: 13.5px; font-weight: 500; color: var(--text-primary);
+    }
+    tbody td:first-child { padding-left: 0; font-weight: 600; }
+
+    /* Ring progress */
+    .ring-wrap { display: flex; align-items: center; gap: 10px; }
+    .ring {
+      width: 42px; height: 42px; position: relative; flex-shrink: 0;
+    }
+    .ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+    .ring .ring-bg { fill: none; stroke: #e2e8f0; stroke-width: 4; }
+    .ring .ring-fill { fill: none; stroke-width: 4; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+    .ring .ring-text {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700; color: var(--text-primary);
+      transform: none;
+    }
+
+    .status-dot {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 500;
+    }
+    .status-dot::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50; flex-shrink: 0;
+      border-radius: 50%;
+    }
+    .status-dot.active { color: #15803d; }
+    .status-dot.active::before { background: #22c55e; box-shadow: 0 0 0 3px #dcfce7; }
+    .status-dot.charging { color: #1d4ed8; }
+    .status-dot.charging::before { background: #3b82f6; box-shadow: 0 0 0 3px #dbeafe; }
+    .status-dot.maintenance { color: #c2410c; }
+    .status-dot.maintenance::before { background: #f97316; box-shadow: 0 0 0 3px #ffedd5; }
+    .status-dot.idle { color: #475569; }
+    .status-dot.idle::before { background: #94a3b8; box-shadow: 0 0 0 3px #f1f5f9; }
+
+    .detail-btn {
+      background: var(--blue-dark); color: #fff;
+      border: none; border-radius: 8px; padding: 6px 14px;
+      font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .detail-btn:hover { background: var(--blue-mid); }
+
+    /* ── SUMMARY STATS ── */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+      padding: 0 40px 20px;
+    }
+
+    .stat-card {
+      background: var(--card); border-radius: 16px; padding: 18px 20px;
+      display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .stat-icon {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
+    }
+    .stat-icon.blue { background: var(--blue-light); }
+    .stat-icon.green { background: var(--green-light); }
+    .stat-icon.amber { background: #fef3c7; }
+    .stat-icon.red { background: var(--red-light); }
+
+    .stat-info { }
+    .stat-num { font-size: 24px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.5px; }
+    .stat-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; margin-top: 1px; }
+    .stat-change {
+      font-size: 11.5px; font-weight: 600; margin-top: 2px;
+    }
+    .stat-change.up { color: var(--green); }
+    .stat-change.down { color: var(--red); }
+  </style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ── NAVBAR ── -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="8" fill="#2d7dd2"/>
+        <rect x="6" y="20" width="20" height="4" rx="2" fill="white" opacity="0.9"/>
+        <rect x="8" y="14" width="16" height="7" rx="3" fill="white" opacity="0.7"/>
+        <circle cx="10" cy="24" r="2" fill="#1a4a8a"/>
+        <circle cx="22" cy="24" r="2" fill="#1a4a8a"/>
+        <rect x="14" y="10" width="4" height="5" rx="1" fill="white" opacity="0.5"/>
+      </svg>
+      CleanFleet
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-links">
+      <a href="#" class="nav-link active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 17H7a5 5 0 0 1 0-10h2m6 0h2a5 5 0 0 1 0 10h-2m-7-5h8"/></svg>
+        Fleet
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Schedule
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Maintenance
+      </a>
+      <a href="#" class="nav-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Clients
+      </a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-bell">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge"></span>
+      </button>
+      <div class="nav-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" placeholder="Search machines…" />
+      </div>
+      <div class="nav-avatar">JD</div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ── HERO ── -->
+    <div class="hero">
+      <div class="hero-top">
+        <div class="hero-left">
+          <div class="hero-subtitle">
+            <span class="dot"></span>
+            12 machines active right now
+          </div>
+          <h1 class="hero-title">Overview</h1>
+          <div class="hero-metrics">
+            <div class="metric-item">
+              <div class="metric-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                Active Machines
+              </div>
+              <div class="metric-value">12 / 15</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+              <div class="metric-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7 13 7M1 17h10M13 7V3a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v4M3 17V11a2 2 0 0 1 2-2h4m6-2h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2"/></svg>
+                Avg Battery
+              </div>
+              <div class="metric-value">78%</div>
+            </div>
+            <div class="metric-divider"></div>
+            <div class="metric-item">
+              <div class="metric-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Coverage Today
+              </div>
+              <div class="metric-value">4,820 sqft</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Machine visual -->
+        <div class="hero-visual">
+          <div class="hero-tag t1">
+            <span class="tag-dot" style="background:#22c55e"></span>
+            Battery OK
+          </div>
+          <div class="hero-tag t2">
+            <span class="tag-dot" style="background:#3b82f6"></span>
+            Brush Speed
+          </div>
+          <div class="hero-tag t3">
+            <span class="tag-dot" style="background:#f5a623"></span>
+            Water Tank
+          </div>
+          <!-- SVG Floor Cleaning Machine -->
+          <svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 20px 40px rgba(0,0,0,0.35))">
+            <!-- Handle -->
+            <rect x="108" y="10" width="10" height="100" rx="5" fill="rgba(255,255,255,0.25)"/>
+            <rect x="85" y="8" width="56" height="14" rx="7" fill="rgba(255,255,255,0.3)"/>
+            <!-- Control Panel on handle -->
+            <rect x="100" y="50" width="26" height="36" rx="6" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+            <rect x="104" y="54" width="8" height="8" rx="2" fill="#4ade80" opacity="0.8"/>
+            <rect x="114" y="54" width="8" height="8" rx="2" fill="#fbbf24" opacity="0.8"/>
+            <rect x="104" y="65" width="18" height="3" rx="1.5" fill="rgba(255,255,255,0.3)"/>
+            <rect x="104" y="71" width="13" height="3" rx="1.5" fill="rgba(255,255,255,0.2)"/>
+            <!-- Machine body -->
+            <rect x="40" y="110" width="160" height="90" rx="16" fill="url(#bodyGrad)"/>
+            <!-- Top panel -->
+            <rect x="50" y="118" width="140" height="32" rx="8" fill="rgba(255,255,255,0.12)"/>
+            <!-- Tank window -->
+            <rect x="58" y="124" width="36" height="20" rx="6" fill="rgba(100,200,255,0.25)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+            <rect x="60" y="126" width="32" height="10" rx="3" fill="rgba(100,200,255,0.4)"/>
+            <!-- LED strip -->
+            <rect x="100" y="124" width="80" height="4" rx="2" fill="rgba(255,255,255,0.08)"/>
+            <circle cx="108" cy="126" r="2.5" fill="#4ade80"/>
+            <circle cx="116" cy="126" r="2.5" fill="#4ade80"/>
+            <circle cx="124" cy="126" r="2.5" fill="#fbbf24"/>
+            <circle cx="132" cy="126" r="2.5" fill="#4ade80"/>
+            <circle cx="140" cy="126" r="2.5" fill="#4ade80"/>
+            <!-- Front bumper -->
+            <rect x="40" y="190" width="160" height="10" rx="5" fill="rgba(0,0,0,0.2)"/>
+            <!-- Brush mechanism -->
+            <rect x="48" y="200" width="144" height="16" rx="8" fill="url(#brushGrad)"/>
+            <!-- Brush bristles (animated) -->
+            <g opacity="0.7">
+              <rect x="52" y="206" width="3" height="8" rx="1.5" fill="#60a5fa" class="bristle"/>
+              <rect x="60" y="204" width="3" height="10" rx="1.5" fill="#60a5fa"/>
+              <rect x="68" y="206" width="3" height="8" rx="1.5" fill="#60a5fa"/>
+              <rect x="76" y="204" width="3" height="10" rx="1.5" fill="#93c5fd"/>
+              <rect x="84" y="206" width="3" height="8" rx="1.5" fill="#60a5fa"/>
+              <rect x="92" y="204" width="3" height="10" rx="1.5" fill="#60a5fa"/>
+              <rect x="100" y="206" width="3" height="8" rx="1.5" fill="#93c5fd"/>
+              <rect x="108" y="204" width="3" height="10" rx="1.5" fill="#60a5fa"/>
+              <rect x="116" y="206" width="3" height="8" rx="1.5" fill="#60a5fa"/>
+              <rect x="124" y="204" width="3" height="10" rx="1.5" fill="#93c5fd"/>
+              <rect x="132" y="206" width="3" height="8" rx="1.5" fill="#60a5fa"/>
+              <rect x="140" y="204" width="3" height="10" rx="1.5" fill="#60a5fa"/>
+              <rect x="148" y="206" width="3" height="8" rx="1.5" fill="#93c5fd"/>
+              <rect x="156" y="204" width="3" height="10" rx="1.5" fill="#60a5fa"/>
+              <rect x="164" y="206" width="3" height="8" rx="1.5" fill="#60a5fa"/>
+              <rect x="172" y="204" width="3" height="10" rx="1.5" fill="#93c5fd"/>
+              <rect x="180" y="206" width="3" height="8" rx="1.5" fill="#60a5fa"/>
+              <rect x="185" y="204" width="3" height="10" rx="1.5" fill="#60a5fa"/>
+            </g>
+            <!-- Wheels -->
+            <ellipse cx="68" cy="222" rx="18" ry="10" fill="#1a2a4a"/>
+            <ellipse cx="68" cy="222" rx="12" ry="7" fill="#243860"/>
+            <ellipse cx="68" cy="222" rx="5" ry="3" fill="#3b5280"/>
+            <ellipse cx="172" cy="222" rx="18" ry="10" fill="#1a2a4a"/>
+            <ellipse cx="172" cy="222" rx="12" ry="7" fill="#243860"/>
+            <ellipse cx="172" cy="222" rx="5" ry="3" fill="#3b5280"/>
+            <!-- Reflection line -->
+            <rect x="52" y="140" width="60" height="2" rx="1" fill="rgba(255,255,255,0.1)"/>
+            <!-- Battery indicator -->
+            <rect x="150" y="140" width="38" height="18" rx="4" fill="rgba(0,0,0,0.2)"/>
+            <rect x="188" y="145" width="4" height="8" rx="2" fill="rgba(0,0,0,0.2)"/>
+            <rect x="152" y="142" width="28" height="14" rx="3" fill="#22c55e" opacity="0.8"/>
+            <text x="160" y="153" fill="white" font-size="9" font-weight="700" font-family="Inter">78%</text>
+            <defs>
+              <linearGradient id="bodyGrad" x1="40" y1="110" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#2d6bc4"/>
+                <stop offset="1" stop-color="#1a3a7a"/>
+              </linearGradient>
+              <linearGradient id="brushGrad" x1="48" y1="200" x2="192" y2="216" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#1e3a6e"/>
+                <stop offset="1" stop-color="#0d2040"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STATS STRIP ── -->
+    <div class="stats-strip">
+      <div class="stat-card">
+        <div class="stat-icon blue">🤖</div>
+        <div class="stat-info">
+          <div class="stat-num">15</div>
+          <div class="stat-label">Total Fleet</div>
+          <div class="stat-change up">↑ 2 added this month</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green">✅</div>
+        <div class="stat-info">
+          <div class="stat-num">12</div>
+          <div class="stat-label">Active / Deployed</div>
+          <div class="stat-change up">↑ 3 from yesterday</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon amber">⚠️</div>
+        <div class="stat-info">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Maintenance Due</div>
+          <div class="stat-change down">↑ 1 new alert</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red">🏠</div>
+        <div class="stat-info">
+          <div class="stat-num">28,450</div>
+          <div class="stat-label">Total sqft This Week</div>
+          <div class="stat-change up">↑ 12% vs last week</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTENT GRID ── -->
+    <div class="content">
+
+      <!-- Performance Chart -->
+      <div class="chart-card">
+        <div class="card-header">
+          <span class="card-title">Cleaning Performance</span>
+          <button class="card-link">Details</button>
+        </div>
+        <div class="chart-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          +480 sqft / day avg
+        </div>
+        <div class="chart-wrap">
+          <canvas id="perfChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Critical Alerts -->
+      <div class="alerts-card">
+        <div class="card-header">
+          <span class="card-title" style="color:#92400e">⚡ Critical Alerts</span>
+          <button class="card-link" style="color:#b45309">See All</button>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-icon ok">🤖</div>
+          <div class="alert-info">
+            <div class="alert-machine">Machine #04</div>
+            <div class="alert-desc">Operating normally</div>
+          </div>
+          <div class="alert-status ok">✓</div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-icon danger">🔋</div>
+          <div class="alert-info">
+            <div class="alert-machine">Machine #07</div>
+            <div class="alert-desc">Battery critical (8%)</div>
+          </div>
+          <div class="alert-status danger">✕</div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-icon warn">🔧</div>
+          <div class="alert-info">
+            <div class="alert-machine">Machine #03</div>
+            <div class="alert-desc">Brush replacement due</div>
+          </div>
+          <div class="alert-status warn">!</div>
+        </div>
+
+        <div class="alert-item">
+          <div class="alert-icon warn">💧</div>
+          <div class="alert-info">
+            <div class="alert-machine">Machine #11</div>
+            <div class="alert-desc">Water tank low</div>
+          </div>
+          <div class="alert-status warn">!</div>
+        </div>
+      </div>
+
+      <!-- Activity Card -->
+      <div class="card activity-card">
+        <div class="card-header">
+          <span class="card-title">Activity Overview</span>
+          <button class="card-link">Details</button>
+        </div>
+
+        <div class="week-nav">
+          <div class="week-days">
+            <div class="week-day"><span class="day-name">Mon</span><span class="day-num">21</span></div>
+            <div class="week-day"><span class="day-name">Tue</span><span class="day-num">22</span></div>
+            <div class="week-day"><span class="day-name">Wed</span><span class="day-num">23</span></div>
+            <div class="week-day"><span class="day-name">Thu</span><span class="day-num">24</span></div>
+            <div class="week-day active"><span class="day-name">Fri</span><span class="day-num">25</span></div>
+            <div class="week-day"><span class="day-name">Sat</span><span class="day-num">26</span></div>
+          </div>
+        </div>
+
+        <div class="activity-chart-wrap">
+          <canvas id="activityChart"></canvas>
+        </div>
+
+        <div class="schedule-label">Today's Schedule</div>
+
+        <div class="schedule-item">
+          <div class="schedule-left">
+            <div class="schedule-task">Fleet Deployment</div>
+            <div class="schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              07:00 – 08:30
+            </div>
+          </div>
+          <span class="schedule-badge completed">Completed</span>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-left">
+            <div class="schedule-task">Battery Charging Cycle</div>
+            <div class="schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              10:00 – 11:30
+            </div>
+          </div>
+          <span class="schedule-badge inprogress">In Progress</span>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-left">
+            <div class="schedule-task">Filter Replacement #03</div>
+            <div class="schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              13:00 – 14:00
+            </div>
+          </div>
+          <span class="schedule-badge scheduled">Scheduled</span>
+        </div>
+
+        <div class="schedule-item">
+          <div class="schedule-left">
+            <div class="schedule-task">Evening Recall & Report</div>
+            <div class="schedule-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              17:30 – 18:00
+            </div>
+          </div>
+          <span class="schedule-badge pending">Pending</span>
+        </div>
+      </div>
+
+      <!-- Machines Status Table -->
+      <div class="card table-card">
+        <div class="table-header">
+          <div>
+            <div class="card-title" style="margin-bottom:6px">Active Machines Status</div>
+            <div class="filter-tabs">
+              <button class="filter-tab active">All</button>
+              <button class="filter-tab">Active</button>
+              <button class="filter-tab">Charging</button>
+              <button class="filter-tab">Maintenance</button>
+            </div>
+          </div>
+          <button class="card-link" style="font-size:13px; color:var(--blue-accent)">Explore all →</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Health</th>
+              <th>Battery (%)</th>
+              <th>Coverage (sqft)</th>
+              <th>Water Tank</th>
+              <th>Status</th>
+              <th>Location</th>
+              <th>Runtime</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="machineTableBody"></tbody>
+        </table>
+      </div>
+
+    </div><!-- /content -->
+
+  </main>
+</div>
+
+<script>
+  /* ─── DATA ─── */
+  const machines = [
+    { id: '№ 01', health: 96, battery: 92, coverage: 680, water: 85, status: 'active',      location: 'Floor 1 – Hall A', runtime: '4h 12m' },
+    { id: '№ 02', health: 78, battery: 64, coverage: 540, water: 72, status: 'active',      location: 'Floor 2 – Office B', runtime: '3h 45m' },
+    { id: '№ 03', health: 45, battery: 38, coverage: 120, water: 20, status: 'maintenance', location: 'Workshop Bay', runtime: '1h 05m' },
+    { id: '№ 04', health: 91, battery: 88, coverage: 720, water: 90, status: 'active',      location: 'Lobby – Ground Fl', runtime: '5h 00m' },
+    { id: '№ 07', health: 30, battery:  8, coverage:  60, water: 10, status: 'maintenance', location: 'Charging Station', runtime: '0h 30m' },
+    { id: '№ 09', health: 88, battery: 55, coverage: 400, water: 60, status: 'charging',    location: 'Dock C', runtime: '2h 10m' },
+    { id: '№ 11', health: 72, battery: 70, coverage: 510, water: 15, status: 'active',      location: 'Floor 3 – Corridor', runtime: '3h 20m' },
+    { id: '№ 14', health: 95, battery: 99, coverage: 810, water: 95, status: 'active',      location: 'Warehouse Zone D', runtime: '5h 30m' },
+  ];
+
+  /* ─── RING PROGRESS ─── */
+  function ringHTML(pct, color) {
+    const r = 16, circ = 2 * Math.PI * r;
+    const offset = circ - (pct / 100) * circ;
+    const col = pct >= 70 ? '#22c55e' : pct >= 40 ? '#f59e0b' : '#ef4444';
+    return `
+      <div class="ring-wrap">
+        <div class="ring">
+          <svg viewBox="0 0 40 40">
+            <circle class="ring-bg" cx="20" cy="20" r="${r}"/>
+            <circle class="ring-fill" cx="20" cy="20" r="${r}"
+              stroke="${col}"
+              stroke-dasharray="${circ}"
+              stroke-dashoffset="${offset}"/>
+          </svg>
+          <div class="ring-text">${pct}%</div>
+        </div>
+      </div>`;
+  }
+
+  function batteryBar(pct) {
+    const col = pct >= 50 ? '#22c55e' : pct >= 20 ? '#f59e0b' : '#ef4444';
+    return `
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:52px;height:10px;background:#e2e8f0;border-radius:6px;overflow:hidden;">
+          <div style="width:${pct}%;height:100%;background:${col};border-radius:6px;transition:width 0.5s"></div>
+        </div>
+        <span style="font-size:12.5px;font-weight:600;color:${col}">${pct}%</span>
+      </div>`;
+  }
+
+  /* ─── RENDER TABLE ─── */
+  const tbody = document.getElementById('machineTableBody');
+  machines.forEach(m => {
+    const statusClass = m.status;
+    const statusLabel = m.status === 'active' ? 'Active' : m.status === 'charging' ? 'Charging' : m.status === 'maintenance' ? 'Maintenance' : 'Idle';
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${m.id}</td>
+      <td>${ringHTML(m.health)}</td>
+      <td>${batteryBar(m.battery)}</td>
+      <td><strong>${m.coverage.toLocaleString()}</strong> <span style="color:var(--text-muted);font-size:11px">sqft</span></td>
+      <td>${batteryBar(m.water)}</td>
+      <td><span class="status-dot ${statusClass}">${statusLabel}</span></td>
+      <td style="color:var(--text-secondary);font-size:12.5px">${m.location}</td>
+      <td style="color:var(--text-secondary);font-size:12.5px">${m.runtime}</td>
+      <td><button class="detail-btn">Details</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  /* ─── FILTER TABS ─── */
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  /* ─── WEEK DAY SELECT ─── */
+  document.querySelectorAll('.week-day').forEach(day => {
+    day.addEventListener('click', () => {
+      document.querySelectorAll('.week-day').forEach(d => d.classList.remove('active'));
+      day.classList.add('active');
+    });
+  });
+
+  /* ─── PERFORMANCE CHART ─── */
+  const perfCtx = document.getElementById('perfChart').getContext('2d');
+
+  const perfLabels = Array.from({length: 30}, (_, i) => `Day ${i+1}`);
+  const perfData = [
+    1200,1300,1280,1400,1350,1500,1480,1600,1700,1680,
+    1750,1820,1900,1850,2000,2100,2050,2200,2350,2400,
+    2300,2450,2600,2700,2680,2800,2900,3100,3200,3400
+  ];
+
+  const gradPerf = perfCtx.createLinearGradient(0, 0, 0, 160);
+  gradPerf.addColorStop(0, 'rgba(45,125,210,0.5)');
+  gradPerf.addColorStop(1, 'rgba(45,125,210,0.0)');
+
+  const gradPerf2 = perfCtx.createLinearGradient(0, 0, 0, 160);
+  gradPerf2.addColorStop(0, 'rgba(250,204,21,0.4)');
+  gradPerf2.addColorStop(1, 'rgba(250,204,21,0.0)');
+
+  new Chart(perfCtx, {
+    type: 'line',
+    data: {
+      labels: perfLabels,
+      datasets: [
+        {
+          label: 'Coverage (sqft)',
+          data: perfData,
+          borderColor: '#60a5fa',
+          backgroundColor: gradPerf,
+          fill: true,
+          tension: 0.45,
+          borderWidth: 2.5,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: '#60a5fa',
+        },
+        {
+          label: 'Target',
+          data: perfData.map(v => v * 0.75),
+          borderColor: '#fbbf24',
+          backgroundColor: gradPerf2,
+          fill: true,
+          tension: 0.45,
+          borderWidth: 1.5,
+          borderDash: [4, 4],
+          pointRadius: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1e3a6e',
+          titleColor: 'rgba(255,255,255,0.6)',
+          bodyColor: '#fff',
+          padding: 10,
+          cornerRadius: 8,
+          displayColors: false,
+          callbacks: { label: ctx => `${ctx.parsed.y.toLocaleString()} sqft` }
+        }
+      },
+      scales: {
+        x: {
+          display: true,
+          grid: { color: 'rgba(255,255,255,0.04)', drawBorder: false },
+          ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 10 }, maxTicksLimit: 6 },
+          border: { display: false }
+        },
+        y: {
+          display: false,
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        }
+      }
+    }
+  });
+
+  /* ─── ACTIVITY CHART ─── */
+  const actCtx = document.getElementById('activityChart').getContext('2d');
+  const actHours = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00'];
+  const actData  = [3, 5, 4, 8, 12, 9, 7, 5, 3];
+
+  const gradAct = actCtx.createLinearGradient(0, 0, 0, 110);
+  gradAct.addColorStop(0, 'rgba(34,197,94,0.3)');
+  gradAct.addColorStop(1, 'rgba(34,197,94,0)');
+
+  new Chart(actCtx, {
+    type: 'line',
+    data: {
+      labels: actHours,
+      datasets: [{
+        data: actData,
+        borderColor: '#22c55e',
+        backgroundColor: gradAct,
+        fill: true,
+        tension: 0.5,
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHoverRadius: 4,
+        pointHoverBackgroundColor: '#22c55e',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        backgroundColor: '#fff',
+        titleColor: '#64748b',
+        bodyColor: '#0f172a',
+        borderColor: '#e2e8f0',
+        borderWidth: 1,
+        padding: 8,
+        cornerRadius: 8,
+        displayColors: false,
+        callbacks: { label: ctx => `${ctx.parsed.y} machines active` }
+      }},
+      scales: {
+        x: { display: true, grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10 } }, border: { display: false } },
+        y: { display: false }
+      }
+    }
+  });
+
+  /* ─── TOOLTIP: Watering label on activity chart ─── */
+  // Just annotate the peak visually (no plugin needed)
+</script>
+</body>
+</html>
