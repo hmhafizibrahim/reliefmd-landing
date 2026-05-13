@@ -196,7 +196,8 @@
 
         /* Values */
         .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 64px; }
-        .value-card { background: var(--cream-dark); padding: 40px; }
+        .value-card { background: var(--cream-dark); padding: 40px; transition: transform 0.2s, box-shadow 0.2s; }
+        .value-card[data-service]:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
         .value-card h4 { font-family: var(--font-serif); font-size: 24px; margin-bottom: 12px; margin-top: 20px; }
         .value-card p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
         .value-icon { width: 48px; height: 48px; background: var(--lime); display: flex; align-items: center; justify-content: center; }
@@ -305,6 +306,67 @@
         /* Certifications */
         .cert-strip { display: flex; justify-content: center; gap: 48px; flex-wrap: wrap; padding: 48px 0; background: var(--cream-dark); align-items: center; }
         .cert-item { font-size: 14px; color: var(--text-muted); font-weight: 500; text-align: center; }
+
+        /* Service Detail Page */
+        .detail-back { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; margin-bottom: 32px; color: var(--text-muted); transition: color 0.3s; }
+        .detail-back:hover { color: var(--dark); }
+        .detail-back svg { width: 16px; height: 16px; }
+        .detail-hero-split { display: grid; grid-template-columns: 1fr 1fr; min-height: 70vh; }
+        .detail-hero-image { position: relative; overflow: hidden; }
+        .detail-hero-image img { width: 100%; height: 100%; object-fit: cover; }
+        .detail-hero-content { padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .detail-hero-content .breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+        .detail-hero-content .breadcrumb a { transition: color 0.3s; }
+        .detail-hero-content .breadcrumb a:hover { color: var(--dark); }
+        .detail-hero-content .service-tag { display: inline-block; background: var(--lime); color: var(--dark); padding: 4px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+        .detail-hero-content h1 { font-family: var(--font-serif); font-size: clamp(32px, 4vw, 52px); line-height: 1.15; margin-bottom: 20px; }
+        .detail-hero-content > p { font-size: 17px; color: var(--text-muted); line-height: 1.8; margin-bottom: 32px; }
+        .detail-badges { display: flex; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+        .detail-badge { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--text-muted); }
+        .detail-badge svg { width: 16px; height: 16px; fill: var(--lime); }
+
+        .checklist-section { padding: 80px 0; }
+        .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+        .checklist-item { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; background: var(--cream-dark); }
+        .checklist-item svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; color: var(--dark); }
+        .checklist-item span { font-size: 15px; }
+
+        .detail-why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 48px; }
+
+        /* Project Detail Page */
+        .project-detail-hero { position: relative; height: 60vh; min-height: 400px; overflow: hidden; }
+        .project-detail-hero img { width: 100%; height: 100%; object-fit: cover; }
+        .project-detail-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); }
+        .project-meta-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .project-meta-item { background: var(--cream); padding: 24px 32px; }
+        .project-meta-item .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 6px; }
+        .project-meta-item .value { font-size: 17px; font-weight: 600; }
+        .project-story { padding: 80px 0; }
+        .project-story-content { max-width: 720px; }
+        .project-story h2 { font-family: var(--font-serif); font-size: 32px; margin-bottom: 20px; margin-top: 48px; }
+        .project-story h2:first-child { margin-top: 0; }
+        .project-story p { font-size: 17px; color: var(--text-muted); line-height: 1.9; margin-bottom: 16px; }
+        .project-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 48px 0; }
+        .project-gallery img { width: 100%; height: 280px; object-fit: cover; }
+        .project-quote-banner { background: var(--dark-olive); padding: 64px; margin: 48px 0; }
+        .project-quote-banner blockquote { font-family: var(--font-serif); font-size: clamp(20px, 2.5vw, 28px); color: var(--white); line-height: 1.5; font-style: italic; margin-bottom: 20px; }
+        .project-quote-banner cite { font-size: 14px; color: rgba(255,255,255,0.5); font-style: normal; }
+        .related-projects { padding: 80px 0; border-top: 1px solid var(--border); }
+
+        @media (max-width: 1024px) {
+            .detail-hero-split { grid-template-columns: 1fr; }
+            .detail-hero-image { height: 400px; }
+            .detail-hero-content { padding: 48px 40px; }
+            .project-meta-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .detail-hero-content { padding: 32px 24px; }
+            .checklist-grid { grid-template-columns: 1fr; }
+            .detail-why-grid { grid-template-columns: 1fr; }
+            .project-gallery { grid-template-columns: 1fr; }
+            .project-meta-bar { grid-template-columns: 1fr; }
+            .project-quote-banner { padding: 32px 24px; }
+        }
 
         /* Animations */
         .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
@@ -480,35 +542,35 @@
                     <p>Licensed specialists. Transparent quotes. Work you can stand behind.</p>
                 </div>
                 <div class="services-list">
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="general-contracting" class="service-item fade-up">
                         <h3>General Contracting</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="renovation" class="service-item fade-up">
                         <h3>Renovation & Remodeling</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="plumbing" class="service-item fade-up">
                         <h3>Plumbing Services</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="electrical" class="service-item fade-up">
                         <h3>Electrical Work</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="roofing" class="service-item fade-up">
                         <h3>Roofing</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="hvac" class="service-item fade-up">
                         <h3>HVAC</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="cleaning" class="service-item fade-up">
                         <h3>Cleaning & Maintenance</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
-                    <a href="#" data-page="services" class="service-item fade-up">
+                    <a href="#" data-service="emergency" class="service-item fade-up">
                         <h3>Emergency Services</h3>
                         <div class="arrow-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
                     </a>
@@ -595,7 +657,7 @@
                     <a href="#" data-page="projects" class="btn-outline">View Projects</a>
                 </div>
                 <div class="project-list">
-                    <div class="project-card fade-up">
+                    <div class="project-card fade-up" data-project="kitchen-renovation" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Full Kitchen Renovation</h3>
                             <p>Complete gut renovation with custom cabinetry, quartz countertops, and modern appliances. Client saved $8,400 vs. competitor quote.</p>
@@ -613,7 +675,7 @@
                             <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Kitchen renovation">
                         </div>
                     </div>
-                    <div class="project-card fade-up">
+                    <div class="project-card fade-up" data-project="roof-replacement" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Roof Replacement After Storm</h3>
                             <p>Emergency response with full replacement completed in 2 days. 25-year warranty included. Insurance documentation provided.</p>
@@ -631,7 +693,7 @@
                             <img src="https://images.unsplash.com/photo-1632759145127-ab3530f7a1d0?w=600&q=80" alt="Roof replacement">
                         </div>
                     </div>
-                    <div class="project-card fade-up">
+                    <div class="project-card fade-up" data-project="electrical-rewire" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Whole-Home Electrical Rewire</h3>
                             <p>Code-compliant upgrade with smart panel installed. Complete rewire without requiring the family to relocate.</p>
@@ -779,7 +841,7 @@
             <div class="container">
                 <!-- Service Detail Cards -->
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;">
-                    <div class="value-card">
+                    <div class="value-card" data-service="general-contracting" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;">
                         <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></div>
                         <h4>General Contracting</h4>
                         <p>Full-scope project management from start to final walkthrough. One team, every trade, total accountability.</p>
@@ -789,8 +851,9 @@
                             <li>Subcontractor coordination</li>
                             <li>Budget & timeline tracking</li>
                         </ul>
+                        <div style="margin-top:16px;font-size:14px;font-weight:600;color:var(--dark);">Learn More <span>&rarr;</span></div>
                     </div>
-                    <div class="value-card">
+                    <div class="value-card" data-service="renovation" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;">
                         <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
                         <h4>Renovation & Remodeling</h4>
                         <p>Kitchen, bath, basement — we transform spaces you love. Design consultation through final install.</p>
@@ -800,8 +863,9 @@
                             <li>Basement finishing</li>
                             <li>Room additions</li>
                         </ul>
+                        <div style="margin-top:16px;font-size:14px;font-weight:600;color:var(--dark);">Learn More <span>&rarr;</span></div>
                     </div>
-                    <div class="value-card">
+                    <div class="value-card" data-service="plumbing" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;">
                         <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><path d="M12 2v6m0 12v2M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/></svg></div>
                         <h4>Plumbing Services</h4>
                         <p>Repairs, installs, and emergency response — fast and clean. Licensed plumbers available 24/7.</p>
@@ -811,8 +875,9 @@
                             <li>Water heater install</li>
                             <li>Pipe replacement</li>
                         </ul>
+                        <div style="margin-top:16px;font-size:14px;font-weight:600;color:var(--dark);">Learn More <span>&rarr;</span></div>
                     </div>
-                    <div class="value-card">
+                    <div class="value-card" data-service="electrical" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;">
                         <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div>
                         <h4>Electrical Work</h4>
                         <p>Safe, certified wiring, panels, and smart home installs. Code-compliant work guaranteed.</p>
@@ -822,8 +887,9 @@
                             <li>Smart home installation</li>
                             <li>EV charger rough-in</li>
                         </ul>
+                        <div style="margin-top:16px;font-size:14px;font-weight:600;color:var(--dark);">Learn More <span>&rarr;</span></div>
                     </div>
-                    <div class="value-card">
+                    <div class="value-card" data-service="roofing" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;">
                         <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/></svg></div>
                         <h4>Roofing</h4>
                         <p>Repairs, full replacements, and storm damage response. Thorough inspection with every job.</p>
@@ -833,8 +899,9 @@
                             <li>Storm damage response</li>
                             <li>Gutter installation</li>
                         </ul>
+                        <div style="margin-top:16px;font-size:14px;font-weight:600;color:var(--dark);">Learn More <span>&rarr;</span></div>
                     </div>
-                    <div class="value-card">
+                    <div class="value-card" data-service="hvac" style="cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;">
                         <div class="value-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></svg></div>
                         <h4>HVAC</h4>
                         <p>Installs, tune-ups, and emergency heating & cooling fixes. Year-round comfort guaranteed.</p>
@@ -844,6 +911,7 @@
                             <li>Emergency repair</li>
                             <li>Smart thermostat setup</li>
                         </ul>
+                        <div style="margin-top:16px;font-size:14px;font-weight:600;color:var(--dark);">Learn More <span>&rarr;</span></div>
                     </div>
                 </div>
 
@@ -1018,7 +1086,7 @@
                 </div>
 
                 <div class="project-list">
-                    <div class="project-card fade-up" data-category="renovation">
+                    <div class="project-card fade-up" data-category="renovation" data-project="kitchen-renovation" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Full Kitchen Renovation</h3>
                             <p>Complete gut renovation with custom cabinetry, quartz countertops, and modern appliances. Client saved $8,400 vs. competitor quote.</p>
@@ -1028,7 +1096,7 @@
                         <div><div class="project-meta-label">Duration</div><div class="project-meta-value">3 Weeks</div></div>
                         <div class="project-thumb"><img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Kitchen renovation"></div>
                     </div>
-                    <div class="project-card fade-up" data-category="roofing">
+                    <div class="project-card fade-up" data-category="roofing" data-project="roof-replacement" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Roof Replacement After Storm</h3>
                             <p>Emergency response with full replacement completed in 2 days. 25-year warranty. Insurance documentation provided.</p>
@@ -1038,7 +1106,7 @@
                         <div><div class="project-meta-label">Duration</div><div class="project-meta-value">2 Days</div></div>
                         <div class="project-thumb"><img src="https://images.unsplash.com/photo-1632759145127-ab3530f7a1d0?w=600&q=80" alt="Roof replacement"></div>
                     </div>
-                    <div class="project-card fade-up" data-category="electrical">
+                    <div class="project-card fade-up" data-category="electrical" data-project="electrical-rewire" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Whole-Home Electrical Rewire</h3>
                             <p>Code-compliant upgrade with smart panel installed. Complete rewire without the family relocating.</p>
@@ -1048,7 +1116,7 @@
                         <div><div class="project-meta-label">Duration</div><div class="project-meta-value">11 Days</div></div>
                         <div class="project-thumb"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&q=80" alt="Electrical work"></div>
                     </div>
-                    <div class="project-card fade-up" data-category="renovation">
+                    <div class="project-card fade-up" data-category="renovation" data-project="bathroom-remodel" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Bathroom Remodel — Master Suite</h3>
                             <p>Transformed a cramped, outdated bathroom into a modern spa-like space on budget and ahead of schedule.</p>
@@ -1058,7 +1126,7 @@
                         <div><div class="project-meta-label">Duration</div><div class="project-meta-value">2 Weeks</div></div>
                         <div class="project-thumb"><img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80" alt="Bathroom remodel"></div>
                     </div>
-                    <div class="project-card fade-up" data-category="hvac">
+                    <div class="project-card fade-up" data-category="hvac" data-project="hvac-replacement" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>HVAC System Full Replacement</h3>
                             <p>Emergency replacement during January cold snap. New high-efficiency system quoted, approved, and installed within 72 hours.</p>
@@ -1068,7 +1136,7 @@
                         <div><div class="project-meta-label">Duration</div><div class="project-meta-value">3 Days</div></div>
                         <div class="project-thumb"><img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80" alt="HVAC installation"></div>
                     </div>
-                    <div class="project-card fade-up" data-category="plumbing">
+                    <div class="project-card fade-up" data-category="plumbing" data-project="pipe-repair" style="cursor:pointer;">
                         <div class="project-info">
                             <h3>Emergency Pipe Repair</h3>
                             <p>Cracked pipe in wall found with camera, patched cleanly with minimal drywall damage. Fast, fair, and no mess.</p>
@@ -1264,6 +1332,16 @@
         </section>
     </div>
 
+    <!-- ========== SERVICE DETAIL PAGE (Dynamic) ========== -->
+    <div class="page-section" id="page-service-detail">
+        <div id="serviceDetailContent"></div>
+    </div>
+
+    <!-- ========== PROJECT DETAIL PAGE (Dynamic) ========== -->
+    <div class="page-section" id="page-project-detail">
+        <div id="projectDetailContent"></div>
+    </div>
+
     <!-- ========== PLANS PAGE ========== -->
     <div class="page-section" id="page-plans">
         <section class="pricing-section">
@@ -1339,12 +1417,12 @@
                 <div>
                     <div class="footer-title">Services</div>
                     <ul class="footer-links">
-                        <li><a href="#" data-page="services">General Contracting</a></li>
-                        <li><a href="#" data-page="services">Renovation</a></li>
-                        <li><a href="#" data-page="services">Plumbing</a></li>
-                        <li><a href="#" data-page="services">Electrical</a></li>
-                        <li><a href="#" data-page="services">Roofing</a></li>
-                        <li><a href="#" data-page="services">HVAC</a></li>
+                        <li><a href="#" data-service="general-contracting">General Contracting</a></li>
+                        <li><a href="#" data-service="renovation">Renovation</a></li>
+                        <li><a href="#" data-service="plumbing">Plumbing</a></li>
+                        <li><a href="#" data-service="electrical">Electrical</a></li>
+                        <li><a href="#" data-service="roofing">Roofing</a></li>
+                        <li><a href="#" data-service="hvac">HVAC</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1385,22 +1463,327 @@
     </div>
 
     <script>
-        // Page Navigation
-        document.querySelectorAll('[data-page]').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const page = this.dataset.page;
-                document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        // ===================== SERVICE DATA =====================
+        const servicesData = {
+            'general-contracting': {
+                name: 'General Contracting', tag: 'General Contracting',
+                h1: 'One Team. Every Trade. Total Accountability.',
+                desc: 'Full-scope project management from start to final walkthrough. We coordinate every trade, pull every permit, and keep your project on time and on budget — so you never have to chase subcontractors or juggle timelines.',
+                image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1000&q=80',
+                warranty: '12-Month',
+                checklist: ['New construction oversight','Permit management & code compliance','Subcontractor coordination','Budget & timeline tracking','Weekly progress reports with photos','Site safety management','Material sourcing & procurement','Final inspection & walkthrough','Post-project warranty support','Insurance claim coordination'],
+                process: [{t:'Consultation',d:'We meet on-site to understand your vision, assess the scope, and discuss your timeline and budget.'},{t:'Detailed Proposal',d:'You receive a comprehensive written proposal with itemized costs, material specs, and a milestone schedule.'},{t:'Permit & Planning',d:'We handle all permit applications, architectural drawings coordination, and pre-construction planning.'},{t:'Construction',d:'Our team executes the work with daily oversight. You get weekly photo updates and milestone check-ins.'},{t:'Final Walkthrough',d:'We walk through every detail together. We don\'t close the project until you sign off on every item.'}],
+                why: [{t:'Single Point of Contact',d:'One project manager handles everything. No chasing subcontractors or deciphering conflicting timelines.'},{t:'Licensed & Bonded',d:'We hold a current state General Contractor license with $2M in liability coverage for your protection.'},{t:'On-Budget Guarantee',d:'Our detailed proposals lock in pricing. Scope changes require your written approval before any cost adjustment.'},{t:'Local Code Expertise',d:'We know local building codes, permit requirements, and inspection schedules inside and out.'}],
+                faqs: [{q:'How long does a typical project take?',a:'Timelines vary by scope. A kitchen renovation typically takes 3-6 weeks, while a room addition may take 8-12 weeks. We provide a detailed schedule before work begins.'},{q:'Do you handle permits?',a:'Absolutely. We manage all permit applications, inspections, and compliance documentation as part of our service.'},{q:'Can I live in my home during construction?',a:'In most cases, yes. We plan phased work to minimize disruption and maintain livable conditions throughout the project.'}],
+                testimonial: {quote:'I\'ve worked with contractors before and the experience is usually painful. This was the exception. One point of contact, a clear schedule, weekly photo updates, and they finished under budget.', author:'Harriet W.', location:'Nashville, TN', rating:5},
+                relatedProjects: ['kitchen-renovation','bathroom-remodel']
+            },
+            'renovation': {
+                name: 'Renovation & Remodeling', tag: 'Renovation',
+                h1: 'Transform Your Home, Room by Room.',
+                desc: 'Kitchen, bath, basement — we transform spaces you love. From initial design consultation through final install, our renovation team handles every detail with precision and care.',
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1000&q=80',
+                warranty: '12-Month',
+                checklist: ['Kitchen renovations & remodels','Bathroom renovations','Basement finishing & conversion','Room additions','Open floor plan conversions','Custom cabinetry & built-ins','Flooring installation','Countertop fabrication & install','Lighting design & fixtures','Paint & finish work'],
+                process: [{t:'Design Consultation',d:'We discuss your vision, take measurements, and explore material options and layout possibilities.'},{t:'3D Visualization',d:'See your renovation before it starts with detailed renderings showing materials, colors, and spatial flow.'},{t:'Material Selection',d:'We guide you through our preferred suppliers with transparent pricing on every material choice.'},{t:'Demolition & Build',d:'Our crew handles demo, structural work, rough-ins, and finish work in a clean, phased approach.'},{t:'Reveal & Walkthrough',d:'The moment you\'ve been waiting for. We walk through the finished space together for your final approval.'}],
+                why: [{t:'Design-Build Approach',d:'We handle both design and construction in-house, eliminating the gaps between architect plans and real-world execution.'},{t:'Material Expertise',d:'Our team knows which materials perform best for each application — we help you balance aesthetics with durability.'},{t:'Minimal Disruption',d:'We plan phased work to keep your home livable. Dust barriers, daily cleanup, and clear communication throughout.'},{t:'Value Engineering',d:'We find creative ways to achieve your vision within budget without sacrificing quality or design intent.'}],
+                faqs: [{q:'How much does a kitchen remodel cost?',a:'Kitchen renovations typically range from $15,000 to $60,000+ depending on scope. We provide a detailed quote after our initial assessment.'},{q:'Can you match my existing home style?',a:'Absolutely. We specialize in seamless renovations that integrate perfectly with your home\'s existing architectural style.'},{q:'Do you offer design services?',a:'Yes. Our design-build approach includes space planning, material selection, and 3D visualization included in the project.'}],
+                testimonial: {quote:'From design consult to final appliance install: seamless. Our kitchen went from dark and dysfunctional to bright and modern. The team was at our house every day at exactly 8am.', author:'Tyler B.', location:'Chicago, IL', rating:5},
+                relatedProjects: ['kitchen-renovation','bathroom-remodel']
+            },
+            'plumbing': {
+                name: 'Plumbing Services', tag: 'Plumbing',
+                h1: 'Fast, Clean Plumbing Repairs — Done Right the First Time.',
+                desc: 'From dripping faucets to full repiping, our licensed plumbers handle every job with speed and precision. 24/7 emergency service available with same-day response.',
+                image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1000&q=80',
+                warranty: '12-Month',
+                checklist: ['Leak detection & repair','Drain cleaning & unclogging','Water heater installation & repair','Pipe replacement & repiping','Faucet & fixture installation','Toilet repair & replacement','Sump pump installation','Gas line services','Bathroom & kitchen plumbing','Emergency plumbing (24/7)'],
+                process: [{t:'Schedule',d:'Book online or call. We confirm your appointment within 1 hour and give you an arrival window.'},{t:'Diagnosis',d:'Our plumber inspects the issue using camera technology and explains all options in plain language.'},{t:'Clear Quote',d:'You receive a written estimate before any work starts. No hidden fees, no surprises.'},{t:'Repair',d:'We complete the work efficiently, protecting your floors and fixtures throughout.'},{t:'Test & Verify',d:'We test every repair under pressure, check for leaks, and clean up completely before leaving.'}],
+                why: [{t:'24/7 Emergency Response',d:'Burst pipe at 2am? We answer the phone around the clock and dispatch a plumber to your home within hours.'},{t:'Camera Diagnostics',d:'We use video pipe inspection to find problems without unnecessary demolition — saving you time and money.'},{t:'Upfront Pricing',d:'You see the exact cost before we start. If the scope changes, we discuss it with you first.'},{t:'Clean Work Guarantee',d:'We lay down protective covers, wear shoe covers, and leave your home cleaner than we found it.'}],
+                faqs: [{q:'How quickly can you respond to a plumbing emergency?',a:'We offer same-day response for emergencies and typically arrive within 2-4 hours of your call.'},{q:'Do you provide a warranty on plumbing work?',a:'Yes. All labor is covered by our 12-month workmanship warranty. Parts are covered by manufacturer warranty.'},{q:'Will you need to cut into my walls?',a:'Only if absolutely necessary. We use diagnostic tools to minimize invasive work and always discuss options beforehand.'}],
+                testimonial: {quote:'I had a slow leak that turned out to be a cracked pipe in the wall. They found it with a camera, explained exactly what they\'d do, and patched it cleanly with minimal drywall damage.', author:'Carmen L.', location:'Miami, FL', rating:5},
+                relatedProjects: ['pipe-repair']
+            },
+            'electrical': {
+                name: 'Electrical Work', tag: 'Electrical',
+                h1: 'Safe, Code-Compliant Electrical Work for Modern Homes.',
+                desc: 'From panel upgrades to complete rewiring, our certified electricians deliver safe, reliable electrical work. Smart home integration and EV charger installation available.',
+                image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1000&q=80',
+                warranty: '12-Month',
+                checklist: ['Panel upgrades & replacements','Whole-home rewiring','Smart home installation & integration','EV charger rough-in & installation','Outlet & switch installation','Ceiling fan & lighting installation','Dedicated circuits for appliances','Electrical safety inspections','Generator installation','Surge protection systems'],
+                process: [{t:'Assessment',d:'Our electrician evaluates your current system, identifies issues, and discusses your goals and needs.'},{t:'Detailed Quote',d:'You receive an itemized quote covering all materials, labor, permit fees, and timeline.'},{t:'Permit & Schedule',d:'We pull all required electrical permits and schedule the work around your availability.'},{t:'Installation',d:'Our team completes the work to code, with minimal disruption to your daily routine.'},{t:'Inspection & Testing',d:'We schedule the municipal inspection, test all circuits, and walk you through everything we did.'}],
+                why: [{t:'Certified Electricians',d:'Every team member holds current certifications. We don\'t send generalists — only licensed electrical specialists.'},{t:'Code Compliance',d:'We stay current with the latest National Electrical Code and local amendments to ensure your home passes inspection.'},{t:'Smart Home Ready',d:'We design electrical systems with future-proofing in mind — smart switches, home automation, and EV infrastructure.'},{t:'Safety First',d:'We perform thorough testing on every circuit and provide a written safety report upon project completion.'}],
+                faqs: [{q:'How do I know if my panel needs upgrading?',a:'If your home is over 20 years old, has frequent breaker trips, or you\'re adding major appliances, a panel upgrade may be necessary. We offer free assessments.'},{q:'Can you install EV chargers?',a:'Yes. We install Level 2 chargers for all major EV brands, including the required dedicated circuit and panel capacity.'},{q:'Is rewiring disruptive?',a:'Our team minimizes wall openings using fishing techniques. We patch and paint any access points we create.'}],
+                testimonial: {quote:'Our 1970s home had dangerous wiring. This team completed a full rewire in 11 days without us having to leave. Smart panel, EV charger rough-in, the works.', author:'Marcus & Lisa D.', location:'Phoenix, AZ', rating:5},
+                relatedProjects: ['electrical-rewire']
+            },
+            'roofing': {
+                name: 'Roofing', tag: 'Roofing',
+                h1: 'Your Roof Protects Everything — Don\'t Trust It to Just Anyone.',
+                desc: 'From emergency tarping to full replacements, our roofing team delivers thorough inspections, honest assessments, and quality installations that last decades.',
+                image: 'https://images.unsplash.com/photo-1632759145127-ab3530f7a1d0?w=1000&q=80',
+                warranty: '25-Year',
+                checklist: ['Full roof replacement','Shingle & tile repair','Storm damage assessment','Emergency tarping','Gutter installation & repair','Flashing repair & replacement','Attic ventilation','Skylight installation','Roof coating & sealing','Insurance documentation'],
+                process: [{t:'Free Inspection',d:'We perform a thorough roof inspection including attic assessment, documenting every finding with photos.'},{t:'Honest Assessment',d:'We explain exactly what we found, what needs attention now, and what can wait — no scare tactics.'},{t:'Written Proposal',d:'You receive a detailed quote with material options, warranty details, and a clear timeline.'},{t:'Installation',d:'Our crew works efficiently, using protective measures for your landscaping and property.'},{t:'Final Review',d:'We inspect every seam, flashing, and valley. You receive warranty documentation and maintenance tips.'}],
+                why: [{t:'Thorough Inspections',d:'We check the roof surface, flashing, ventilation, and attic space — not just what\'s visible from the ground.'},{t:'Insurance Expertise',d:'We document storm damage thoroughly and work directly with your insurance adjuster to maximize your claim.'},{t:'25-Year Warranty',d:'Our premium installations include manufacturer-backed warranties up to 25 years for your peace of mind.'},{t:'Storm Response',d:'We prioritize emergency calls after severe weather with same-day tarping to prevent further damage.'}],
+                faqs: [{q:'How long does a roof replacement take?',a:'Most residential roofs are completed in 1-3 days depending on size and complexity. We work efficiently to minimize exposure.'},{q:'Will you help with my insurance claim?',a:'Absolutely. We provide detailed documentation, photos, and estimates formatted for insurance adjusters.'},{q:'How do I know if I need a repair or replacement?',a:'Our free inspection includes an honest assessment. If a repair will reliably extend your roof\'s life, we\'ll tell you.'}],
+                testimonial: {quote:'A hailstorm ripped through our neighborhood on a Wednesday. By Thursday morning, their team was on my roof with a tarp and a plan. Full replacement was done within a week.', author:'James K.', location:'Austin, TX', rating:5},
+                relatedProjects: ['roof-replacement']
+            },
+            'hvac': {
+                name: 'HVAC', tag: 'HVAC',
+                h1: 'Year-Round Comfort Starts With a System You Can Rely On.',
+                desc: 'Installation, repair, and maintenance for heating, ventilation, and air conditioning systems. Emergency service available 24/7 with smart thermostat integration.',
+                image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1000&q=80',
+                warranty: '12-Month',
+                checklist: ['Central AC installation & repair','Furnace installation & repair','Heat pump systems','Ductwork design & installation','Smart thermostat setup','Air quality testing','Filter replacement programs','Seasonal tune-ups','Emergency heating & cooling','Zone control systems'],
+                process: [{t:'Load Calculation',d:'We calculate your home\'s exact heating and cooling needs — not a guess based on square footage.'},{t:'System Recommendation',d:'We present options at different price points with honest pros and cons for each.'},{t:'Professional Install',d:'Our NATE-certified technicians install your system following manufacturer specs precisely.'},{t:'Commissioning',d:'We test every component, calibrate the thermostat, and optimize airflow for maximum efficiency.'},{t:'Maintenance Plan',d:'We set you up with scheduled maintenance to keep your warranty valid and efficiency high.'}],
+                why: [{t:'NATE-Certified Techs',d:'Our technicians hold North American Technician Excellence certification — the gold standard in HVAC.'},{t:'Right-Sized Systems',d:'We use Manual J load calculations to size your system correctly — not too big, not too small.'},{t:'Energy Efficiency',d:'We install high-SEER equipment and optimize ductwork to minimize your energy bills year-round.'},{t:'Smart Integration',d:'Every installation includes smart thermostat setup with zone control options for room-by-room comfort.'}],
+                faqs: [{q:'How often should my HVAC be serviced?',a:'We recommend twice-yearly maintenance — once before cooling season and once before heating season to ensure peak performance.'},{q:'What SEER rating should I look for?',a:'For most homes, a 16-18 SEER system offers the best balance of efficiency and value. We\'ll help you find the right fit.'},{q:'Can you improve my home\'s air quality?',a:'Yes. We offer air quality testing, UV purification systems, and filtration upgrades as part of our HVAC services.'}],
+                testimonial: {quote:'Our old system died in January. They had a new system quoted, approved, and installed within 72 hours. They explained everything and set up the smart thermostat perfectly.', author:'David R.', location:'Portland, OR', rating:5},
+                relatedProjects: ['hvac-replacement']
+            },
+            'cleaning': {
+                name: 'Cleaning & Maintenance', tag: 'Cleaning',
+                h1: 'Professional Home Cleaning & Maintenance Services.',
+                desc: 'Regular cleaning, deep cleaning, and preventive maintenance to keep your home in top condition. Flexible scheduling with trusted, background-checked professionals.',
+                image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1000&q=80',
+                warranty: 'Satisfaction',
+                checklist: ['Regular home cleaning','Deep cleaning services','Move-in/move-out cleaning','Post-construction cleanup','Window cleaning','Carpet & upholstery cleaning','Pressure washing','Gutter cleaning','Seasonal maintenance checks','Preventive home inspections'],
+                process: [{t:'Consultation',d:'We visit your home, understand your needs, and create a customized cleaning or maintenance plan.'},{t:'Custom Plan',d:'You receive a detailed plan with frequency, scope, and pricing tailored to your home.'},{t:'Trusted Team',d:'Every team member is background-checked, insured, and trained in our quality standards.'},{t:'Service Delivery',d:'We arrive on time, follow your plan meticulously, and use eco-friendly products throughout.'},{t:'Quality Check',d:'We photograph completed work and follow up to ensure everything meets your expectations.'}],
+                why: [{t:'Background-Checked',d:'Every team member undergoes thorough background checks and is bonded and insured for your peace of mind.'},{t:'Eco-Friendly Products',d:'We use environmentally safe cleaning products that are tough on dirt but safe for your family and pets.'},{t:'Flexible Scheduling',d:'Weekly, bi-weekly, monthly, or one-time service — we build a schedule that works for your life.'},{t:'Consistent Teams',d:'You get the same trusted crew each visit, so they know your home and your preferences.'}],
+                faqs: [{q:'Do I need to be home during cleaning?',a:'No. Many of our clients provide a key or code. Your team is bonded and insured for your protection.'},{q:'Do you bring your own supplies?',a:'Yes, we bring all cleaning products and equipment. We can also use your preferred products if you\'d like.'},{q:'Can I customize what gets cleaned?',a:'Absolutely. We create a custom checklist for every home based on your priorities and preferences.'}],
+                testimonial: {quote:'I signed up for their Essential Plan just to try it. Now I\'ve been a member for 18 months. The seasonal inspections have caught small issues three times before they became expensive problems.', author:'Yuki N.', location:'San Jose, CA', rating:5},
+                relatedProjects: []
+            },
+            'emergency': {
+                name: 'Emergency Services', tag: 'Emergency',
+                h1: '24/7 Emergency Home Repair — Fast Response, No Overtime Fees.',
+                desc: 'When disaster strikes, every minute counts. Our emergency team is on call 24/7 for burst pipes, electrical failures, storm damage, and more. Same-day response guaranteed.',
+                image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1000&q=80',
+                warranty: '12-Month',
+                checklist: ['Burst pipe response & repair','Emergency electrical repair','Storm damage assessment & tarping','Flooding & water extraction','Gas leak detection','Emergency heating repair','Tree damage cleanup','Temporary structural support','Board-up services','Insurance documentation'],
+                process: [{t:'Call Anytime',d:'Our emergency line is staffed 24/7/365. A real person answers — not a voicemail.'},{t:'Rapid Dispatch',d:'We dispatch the nearest available technician to your home, typically within 1-2 hours.'},{t:'Stabilize & Assess',d:'We stop the immediate damage, then assess the full scope and explain your options clearly.'},{t:'Emergency Repair',d:'We complete the urgent repair to restore safety and functionality to your home.'},{t:'Follow-Up Plan',d:'We schedule any additional work needed and provide full documentation for insurance claims.'}],
+                why: [{t:'True 24/7 Service',d:'No answering machines, no callbacks. A real dispatcher answers your call any time — day, night, weekends, or holidays.'},{t:'No Overtime Fees',d:'Our emergency rate is our regular rate. We don\'t gouge you when you\'re in a vulnerable situation.'},{t:'Multi-Trade Team',d:'Our emergency crew includes plumbers, electricians, and general contractors — ready for any situation.'},{t:'Insurance Coordination',d:'We document everything for your insurance claim and work directly with adjusters on your behalf.'}],
+                faqs: [{q:'What qualifies as an emergency?',a:'Active water leaks, loss of heat in winter, electrical hazards, storm damage, and gas leaks all qualify for emergency dispatch.'},{q:'Do you charge more for nights and weekends?',a:'No. Our emergency rate is the same 24/7. We believe in fair pricing especially when you\'re in a tough spot.'},{q:'How fast can you get to my home?',a:'In most cases, we have a technician at your door within 2 hours of your call, often sooner.'}],
+                testimonial: {quote:'Our roof was leaking after a hailstorm and I was panicking. They came out the same day, tarped it, and had a full replacement scheduled within 48 hours. Professional from start to finish.', author:'James K.', location:'Austin, TX', rating:5},
+                relatedProjects: ['roof-replacement','pipe-repair']
+            }
+        };
+
+        // ===================== PROJECT DATA =====================
+        const projectsData = {
+            'kitchen-renovation': {
+                name: 'Full Kitchen Renovation', category: 'renovation',
+                location: 'Austin, TX', duration: '3 Weeks', budget: '$28,000 - $35,000', result: 'Saved $8,400 vs. competitor',
+                heroImage: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80',
+                gallery: ['https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80','https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=80','https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=600&q=80','https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'],
+                challenge: 'The homeowners had a cramped, 1990s-era kitchen with poor lighting, limited counter space, and outdated appliances. The layout forced an awkward workflow between the stove, sink, and refrigerator. They wanted a modern, open space for cooking and entertaining without relocating during the renovation.',
+                approach: 'We removed a non-load-bearing wall to open the kitchen to the dining area, creating a bright and connected space. Custom soft-close cabinetry was installed floor-to-ceiling for maximum storage. Quartz countertops, a subway tile backsplash, and under-cabinet LED lighting completed the modern look. We worked in phases to keep the home livable throughout the process.',
+                results: 'The kitchen was completed 2 days ahead of schedule and $8,400 under the highest competitor quote. The open layout increased usable counter space by 40% and transformed the home\'s main living area. The homeowners have since referred us to three neighbors.',
+                testimonial: {quote:'They quoted a fair price, showed up exactly when they said they would, and finished a day ahead of schedule. Our bathroom remodel turned out better than we imagined. We\'ve already referred them to three friends.', author:'Sandra M.', location:'Denver, CO'}
+            },
+            'roof-replacement': {
+                name: 'Roof Replacement After Storm', category: 'roofing',
+                location: 'Denver, CO', duration: '2 Days', budget: '$12,000 - $18,000', result: '25-year warranty included',
+                heroImage: 'https://images.unsplash.com/photo-1632759145127-ab3530f7a1d0?w=1200&q=80',
+                gallery: ['https://images.unsplash.com/photo-1632759145127-ab3530f7a1d0?w=600&q=80','https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80'],
+                challenge: 'A severe hailstorm caused widespread damage across the neighborhood. The homeowner\'s roof had multiple cracked shingles, compromised flashing, and active leaks into the attic. Water was damaging ceiling drywall and insulation. Immediate action was needed to prevent mold growth and structural damage.',
+                approach: 'Within 24 hours of the call, our emergency team tarped the damaged sections and set up interior moisture barriers. We conducted a thorough inspection with drone photography, documented every area of damage for the insurance adjuster, and submitted a comprehensive repair estimate. Once approved, our crew completed the full tear-off and replacement in 2 days using impact-resistant architectural shingles.',
+                results: 'The homeowner received full insurance coverage thanks to our thorough documentation. The new roof includes a 25-year manufacturer warranty and 50-mph wind rating. Our documentation was so thorough that the insurance adjuster processed the claim in record time.',
+                testimonial: {quote:'A hailstorm ripped through our neighborhood on a Wednesday. By Thursday morning, their team was on my roof with a tarp and a plan. Full replacement was done within a week. Insurance process was smooth because their documentation was so thorough.', author:'James K.', location:'Austin, TX'}
+            },
+            'electrical-rewire': {
+                name: 'Whole-Home Electrical Rewire', category: 'electrical',
+                location: 'Phoenix, AZ', duration: '11 Days', budget: '$18,000 - $25,000', result: 'Code-compliant smart panel',
+                heroImage: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1200&q=80',
+                gallery: ['https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600&q=80','https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&q=80'],
+                challenge: 'A 1970s home with original aluminum wiring, an undersized 100-amp panel, and numerous code violations discovered during a pre-sale inspection. The family needed the home brought up to modern electrical code without relocating during the work.',
+                approach: 'We designed a phased rewiring plan that maintained power to essential circuits at all times. Our team replaced all aluminum wiring with copper, upgraded to a 200-amp smart panel, installed whole-home surge protection, added a dedicated EV charger circuit, and brought every outlet, switch, and junction box up to current code. We used minimal-invasion fishing techniques to route new wiring through existing wall cavities.',
+                results: 'The rewire was completed in 11 days — 4 days ahead of the estimated timeline. The family had power every evening. The home passed inspection on the first attempt, and the smart panel now allows remote monitoring of every circuit. The EV charger rough-in saved the homeowners $3,000 compared to adding it later.',
+                testimonial: {quote:'Our 1970s home had dangerous wiring that three other electricians said would take months. This team completed a full rewire in 11 days without us having to leave. We had power every night.', author:'Marcus & Lisa D.', location:'Phoenix, AZ'}
+            },
+            'bathroom-remodel': {
+                name: 'Master Bathroom Remodel', category: 'renovation',
+                location: 'Denver, CO', duration: '2 Weeks', budget: '$15,000 - $22,000', result: 'Finished ahead of schedule',
+                heroImage: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80',
+                gallery: ['https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=80','https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&q=80'],
+                challenge: 'A cramped, outdated master bathroom with poor ventilation, a leaking shower pan, and fixtures from the 1980s. The homeowners wanted a modern, spa-like retreat without expanding the footprint.',
+                approach: 'We reconfigured the layout to maximize the existing space, replacing the tub-shower combo with a walk-in glass-enclosed shower featuring dual rainfall and handheld heads. New waterproofing, heated tile flooring, floating vanity, and a lighted mirror transformed the room. Improved ventilation prevented future moisture issues.',
+                results: 'Completed 2 days ahead of schedule. The reconfigured layout feels significantly more spacious without any structural changes. The heated floors and spa-quality shower have made this the homeowners\' favorite room in the house.',
+                testimonial: {quote:'They turned our cramped, outdated bathroom into something out of a magazine — on budget and two days ahead of schedule. The crew was respectful, tidy, and communicated every step of the way.', author:'Sandra M.', location:'Denver, CO'}
+            },
+            'hvac-replacement': {
+                name: 'HVAC System Full Replacement', category: 'hvac',
+                location: 'Portland, OR', duration: '3 Days', budget: '$8,000 - $14,000', result: '72-hour emergency install',
+                heroImage: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=1200&q=80',
+                gallery: ['https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80'],
+                challenge: 'The homeowner\'s 18-year-old furnace failed during a January cold snap with overnight temperatures below freezing. The family needed heat restored as quickly as possible.',
+                approach: 'We dispatched a technician within 2 hours of the call. After confirming the unit was beyond repair, we presented three replacement options by that evening. The homeowner selected a high-efficiency heat pump system. We sourced equipment from our local supplier and had the full installation completed within 72 hours, including new ductwork modifications and a smart thermostat.',
+                results: 'Heat was restored in 72 hours from first call to final commissioning. The new system reduced the homeowner\'s monthly energy bill by approximately 30% compared to the old furnace. The smart thermostat with zone control provides room-by-room temperature management.',
+                testimonial: {quote:'Our old system died in January. Not ideal. They had a new system quoted, approved, and installed within 72 hours. They explained everything about the new unit and left detailed maintenance instructions.', author:'David R.', location:'Portland, OR'}
+            },
+            'pipe-repair': {
+                name: 'Emergency Pipe Repair', category: 'plumbing',
+                location: 'Miami, FL', duration: '1 Day', budget: '$800 - $2,500', result: 'Minimal drywall damage',
+                heroImage: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1200&q=80',
+                gallery: ['https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80'],
+                challenge: 'A slow leak behind a bathroom wall went undetected for weeks. By the time the homeowner noticed discoloration on the wall, water had saturated insulation and was beginning to affect the subfloor.',
+                approach: 'We used a pipe inspection camera to pinpoint the crack location without opening the entire wall. A 2-foot access panel was carefully cut, the cracked section of copper pipe was replaced with a new fitting, and we verified no additional damage upstream or downstream. We treated the area for moisture, replaced the insulation, and patched the drywall.',
+                results: 'The repair was completed in a single day with only a small drywall patch needed. The camera inspection confirmed no other pipe issues throughout the home. We provided a moisture report showing the affected area was properly dried to prevent mold.',
+                testimonial: {quote:'I had a slow leak that turned out to be a cracked pipe in the wall. I braced for a disaster. They found it with a camera, explained exactly what they\'d do, and patched it cleanly with minimal drywall damage.', author:'Carmen L.', location:'Miami, FL'}
+            }
+        };
+
+        // ===================== RENDER SERVICE DETAIL =====================
+        function renderServiceDetail(slug) {
+            const s = servicesData[slug];
+            if (!s) return;
+            const stars = '★'.repeat(s.testimonial.rating);
+            const checkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+            const html = `
+            <div class="detail-hero-split">
+                <div class="detail-hero-image"><img src="${s.image}" alt="${s.name}" loading="lazy"></div>
+                <div class="detail-hero-content">
+                    <div class="breadcrumb"><a href="#" data-page="home">Home</a> &rsaquo; <a href="#" data-page="services">Services</a> &rsaquo; ${s.name}</div>
+                    <span class="service-tag">${s.tag}</span>
+                    <h1>${s.h1}</h1>
+                    <p>${s.desc}</p>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                        <a href="#" data-page="contact" class="btn-primary">Get a Free ${s.tag} Quote <span>&rarr;</span></a>
+                        <a href="#" data-page="projects" class="btn-outline">See ${s.tag} Projects <span>&rarr;</span></a>
+                    </div>
+                    <div class="detail-badges">
+                        <span class="detail-badge"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg> Licensed & Insured</span>
+                        <span class="detail-badge"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Free Estimate</span>
+                        <span class="detail-badge"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/></svg> ${s.warranty} Warranty</span>
+                    </div>
+                </div>
+            </div>
+            <section class="checklist-section"><div class="container">
+                <div class="section-header fade-up"><div class="section-label">What's Included</div>
+                <h2 style="font-family:var(--font-serif);font-size:clamp(28px,3.5vw,44px);">Our ${s.name} Cover Everything You Need</h2></div>
+                <div class="checklist-grid">${s.checklist.map(item => `<div class="checklist-item fade-up">${checkSvg}<span>${item}</span></div>`).join('')}</div>
+            </div></section>
+            <section style="padding:80px 0;background:var(--dark);color:var(--white);"><div class="container">
+                <div class="section-header fade-up"><div class="section-label section-label-light">Our Process</div>
+                <h2 style="font-family:var(--font-serif);font-size:clamp(28px,3.5vw,44px);color:var(--white);">Here's Exactly What Happens</h2></div>
+                <div class="process-grid" style="grid-template-columns:repeat(${Math.min(s.process.length,5)},1fr);">
+                    ${s.process.map((step,i) => `<div class="process-step fade-up" style="transition-delay:${i*0.1}s"><div class="process-number">0${i+1}</div><h4>${step.t}</h4><p>${step.d}</p></div>`).join('')}
+                </div>
+            </div></section>
+            <section style="padding:80px 0;"><div class="container">
+                <div class="section-header fade-up"><div class="section-label">Why Choose Us</div>
+                <h2 style="font-family:var(--font-serif);font-size:clamp(28px,3.5vw,44px);">What Makes Our ${s.name} Different</h2></div>
+                <div class="detail-why-grid">${s.why.map(w => `<div class="trust-card fade-up"><div class="trust-card-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1a14" stroke-width="2"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><h4>${w.t}</h4><p>${w.d}</p></div>`).join('')}</div>
+            </div></section>
+            <section class="testimonials-section" style="padding:80px 0;"><div class="container">
+                <div class="testimonial-card fade-up" style="max-width:800px;">
+                    <div class="testimonial-stars">${stars}</div>
+                    <div class="testimonial-quote">"${s.testimonial.quote}"</div>
+                    <div class="testimonial-author"><div class="testimonial-author-info">
+                        <div class="testimonial-author-name">${s.testimonial.author}</div>
+                        <div class="testimonial-author-detail">${s.testimonial.location} · ${s.tag}</div>
+                    </div></div>
+                </div>
+            </div></section>
+            <section style="padding:80px 0;background:var(--cream-dark);"><div class="container" style="max-width:800px;">
+                <div class="section-header fade-up" style="text-align:center;"><div class="section-label" style="justify-content:center;">Frequently Asked Questions</div>
+                <h2 style="font-family:var(--font-serif);font-size:clamp(28px,3.5vw,44px);margin:0 auto;">${s.name} FAQ</h2></div>
+                <div style="margin-top:40px;">${s.faqs.map(faq => `<div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)">${faq.q}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-answer"><div class="faq-answer-inner">${faq.a}</div></div></div>`).join('')}</div>
+            </div></section>
+            <section class="cta-banner"><div class="container">
+                <h2 class="fade-up">Ready to Book Your ${s.tag}?</h2>
+                <p class="fade-up stagger-1">Fast scheduling. Fair pricing. Guaranteed results.</p>
+                <a href="#" data-page="contact" class="btn-dark fade-up stagger-2">Get a Free Quote <span>&rarr;</span></a>
+            </div></section>`;
+            document.getElementById('serviceDetailContent').innerHTML = html;
+        }
+
+        // ===================== RENDER PROJECT DETAIL =====================
+        function renderProjectDetail(slug) {
+            const p = projectsData[slug];
+            if (!p) return;
+            const html = `
+            <div class="project-detail-hero">
+                <img src="${p.heroImage}" alt="${p.name}" loading="lazy">
+                <div class="project-detail-hero-overlay"></div>
+            </div>
+            <section style="padding:0;"><div class="container">
+                <div style="padding:40px 0;"><a href="#" data-page="projects" class="detail-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg> Back to Projects</a>
+                <h1 style="font-family:var(--font-serif);font-size:clamp(32px,4.5vw,56px);line-height:1.15;margin-bottom:8px;">${p.name}</h1></div>
+            </div></section>
+            <div class="project-meta-bar"><div class="container" style="padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);">
+                <div class="project-meta-item"><div class="label">Service</div><div class="value" style="text-transform:capitalize;">${p.category}</div></div>
+                <div class="project-meta-item"><div class="label">Location</div><div class="value">${p.location}</div></div>
+                <div class="project-meta-item"><div class="label">Duration</div><div class="value">${p.duration}</div></div>
+                <div class="project-meta-item"><div class="label">Result</div><div class="value">${p.result}</div></div>
+            </div></div>
+            <section class="project-story"><div class="container"><div class="project-story-content">
+                <h2>The Challenge</h2><p>${p.challenge}</p>
+                <h2>Our Approach</h2><p>${p.approach}</p>
+                ${p.gallery.length > 1 ? `<div class="project-gallery">${p.gallery.map(img => `<img src="${img}" alt="${p.name}" loading="lazy">`).join('')}</div>` : ''}
+                <h2>The Results</h2><p>${p.results}</p>
+            </div></div></section>
+            <div class="container"><div class="project-quote-banner">
+                <blockquote>"${p.testimonial.quote}"</blockquote>
+                <cite>— ${p.testimonial.author}, ${p.testimonial.location}</cite>
+            </div></div>
+            <section class="cta-banner"><div class="container">
+                <h2>Ready to Start Your Project?</h2>
+                <p>Get a free quote in 24 hours — no pressure, no obligation.</p>
+                <a href="#" data-page="contact" class="btn-dark">Request a Free Quote <span>&rarr;</span></a>
+            </div></section>`;
+            document.getElementById('projectDetailContent').innerHTML = html;
+        }
+
+        // ===================== NAVIGATION =====================
+        function navigateTo(page, slug) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+            if (page === 'service-detail' && slug) {
+                renderServiceDetail(slug);
+                document.getElementById('page-service-detail').classList.add('active');
+            } else if (page === 'project-detail' && slug) {
+                renderProjectDetail(slug);
+                document.getElementById('page-project-detail').classList.add('active');
+            } else {
                 const target = document.getElementById('page-' + page);
-                if (target) {
-                    target.classList.add('active');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    document.getElementById('mobileMenu').classList.remove('active');
-                    document.body.style.overflow = '';
-                    initAnimations();
-                }
+                if (target) target.classList.add('active');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(initAnimations, 50);
+            // Re-bind dynamic links
+            setTimeout(bindLinks, 100);
+        }
+
+        function bindLinks() {
+            document.querySelectorAll('[data-page]').forEach(link => {
+                if (link._bound) return;
+                link._bound = true;
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo(this.dataset.page, this.dataset.slug);
+                });
             });
-        });
+            document.querySelectorAll('[data-service]').forEach(link => {
+                if (link._bound) return;
+                link._bound = true;
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('service-detail', this.dataset.service);
+                });
+            });
+            document.querySelectorAll('[data-project]').forEach(link => {
+                if (link._bound) return;
+                link._bound = true;
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navigateTo('project-detail', this.dataset.project);
+                });
+            });
+        }
 
         // Hamburger Menu
         document.getElementById('hamburger').addEventListener('click', function() {
@@ -1418,7 +1801,7 @@
         function toggleFaq(el) {
             const answer = el.nextElementSibling;
             const isOpen = el.classList.contains('active');
-            document.querySelectorAll('.faq-question.active').forEach(q => {
+            el.closest('.faq-group, section, div').querySelectorAll('.faq-question.active').forEach(q => {
                 q.classList.remove('active');
                 q.nextElementSibling.style.maxHeight = '0';
             });
@@ -1456,10 +1839,7 @@
                 const step = Math.ceil(target / 60);
                 const timer = setInterval(() => {
                     current += step;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
+                    if (current >= target) { current = target; clearInterval(timer); }
                     el.textContent = prefix + current.toLocaleString() + suffix;
                 }, 20);
             });
@@ -1469,28 +1849,15 @@
         function initAnimations() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
+                    if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
                 });
             }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-up').forEach(el => {
-                if (!el.classList.contains('visible')) {
-                    observer.observe(el);
-                }
-            });
+            document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
         }
 
         // Counter trigger
         const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    statsObserver.unobserve(entry.target);
-                }
-            });
+            entries.forEach(entry => { if (entry.isIntersecting) { animateCounters(); statsObserver.unobserve(entry.target); } });
         }, { threshold: 0.3 });
         const statsBar = document.querySelector('.stats-bar');
         if (statsBar) statsObserver.observe(statsBar);
@@ -1504,19 +1871,13 @@
             btn.disabled = true;
             setTimeout(() => {
                 btn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Quote Requested!</span>';
-                btn.style.background = '#2d6b2d';
-                btn.style.color = '#fff';
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                    btn.style.background = '';
-                    btn.style.color = '';
-                    e.target.reset();
-                }, 3000);
+                btn.style.background = '#2d6b2d'; btn.style.color = '#fff';
+                setTimeout(() => { btn.innerHTML = originalText; btn.disabled = false; btn.style.background = ''; btn.style.color = ''; e.target.reset(); }, 3000);
             }, 1500);
         }
 
         // Init
+        bindLinks();
         initAnimations();
     </script>
     <style>
