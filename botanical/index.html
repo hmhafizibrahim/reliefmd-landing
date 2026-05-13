@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Botanical – Science-Rooted Wellness</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Gayathri:wght@100;400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Font: Lost Normal (self-hosted fallback chain) ── */
+    @font-face {
+      font-family: 'Lost';
+      src: local('Lost Normal'), local('Lost');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* ── Design Tokens ── */
+    :root {
+      --deep-green: #123D2D;
+      --forest-green: #174934;
+      --warm-cream: #F4EFE6;
+      --soft-ivory: #FAF7F0;
+      --clay: #C96F3A;
+      --muted-gold: #D9B24C;
+      --sage: #92B28C;
+      --charcoal-green: #24352C;
+
+      --heading: 'Gayathri', sans-serif;
+      --body: 'Lost', 'DM Sans', system-ui, sans-serif;
+
+      --max-w: 1200px;
+      --radius: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 999px;
+
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    body {
+      font-family: var(--body);
+      color: var(--deep-green);
+      background: #fff;
+      line-height: 1.65;
+      overflow-x: hidden;
+      font-size: 15px;
+    }
+
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    /* ── Announcement Bar ── */
+    .announcement {
+      background: var(--deep-green);
+      color: var(--warm-cream);
+      text-align: center;
+      padding: 10px 16px;
+      font-family: var(--body);
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+    .announcement strong { color: var(--muted-gold); font-weight: 700; }
+    .announcement a {
+      color: var(--muted-gold);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(18, 61, 45, 0.06);
+      transition: box-shadow var(--transition);
+    }
+    .nav.scrolled { box-shadow: 0 2px 24px rgba(18, 61, 45, 0.06); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .nav-left, .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-left a, .nav-right a {
+      font-family: var(--body);
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      color: var(--charcoal-green);
+      transition: color var(--transition);
+    }
+    .nav-left a:hover, .nav-right a:hover { color: var(--clay); }
+
+    .logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .logo svg { height: 34px; width: auto; }
+
+    .cart-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .cart-icon svg { width: 20px; height: 20px; stroke: var(--charcoal-green); }
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -7px;
+      width: 15px;
+      height: 15px;
+      background: var(--clay);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.55rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      width: 22px;
+      padding: 2px 0;
+    }
+    .mobile-toggle span {
+      width: 100%;
+      height: 1.5px;
+      background: var(--deep-green);
+      border-radius: 2px;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--body);
+      font-weight: 400;
+      font-size: 0.88rem;
+      letter-spacing: 0.01em;
+      padding: 14px 32px;
+      border-radius: var(--radius-full);
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn svg { width: 16px; height: 16px; transition: transform var(--transition); }
+    .btn:hover svg { transform: translateX(3px); }
+
+    .btn-primary {
+      background: var(--deep-green);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--forest-green);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(18, 61, 45, 0.2);
+    }
+
+    .btn-clay {
+      background: var(--clay);
+      color: #fff;
+    }
+    .btn-clay:hover {
+      background: #b5622f;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(201, 111, 58, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--deep-green);
+      border: 1.5px solid var(--deep-green);
+    }
+    .btn-outline:hover {
+      background: var(--deep-green);
+      color: #fff;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: var(--deep-green);
+    }
+    .btn-white:hover {
+      background: var(--soft-ivory);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      background: var(--warm-cream);
+      overflow: hidden;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 580px;
+    }
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 60px 60px 0;
+      padding-left: clamp(1.25rem, 4vw, 2.5rem);
+      max-width: 620px;
+      margin-left: auto;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(18, 61, 45, 0.06);
+      border-radius: var(--radius-full);
+      padding: 6px 16px;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--forest-green);
+      width: fit-content;
+      margin-bottom: 24px;
+    }
+    .hero-badge svg { width: 14px; height: 14px; stroke: var(--sage); }
+    .hero-title {
+      font-family: var(--heading);
+      font-size: clamp(2.6rem, 4.8vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--deep-green);
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    .hero-subtitle {
+      font-size: 1.02rem;
+      line-height: 1.7;
+      color: var(--charcoal-green);
+      opacity: 0.75;
+      margin-bottom: 32px;
+      max-width: 440px;
+    }
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    .hero-social-proof {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .hero-stars {
+      display: flex;
+      gap: 2px;
+    }
+    .hero-stars svg { width: 16px; height: 16px; fill: var(--muted-gold); stroke: none; }
+    .hero-rating {
+      font-size: 0.82rem;
+      color: var(--charcoal-green);
+      opacity: 0.7;
+    }
+    .hero-rating strong { font-weight: 700; opacity: 1; color: var(--deep-green); }
+
+    /* Hero Image Panel */
+    .hero-image {
+      position: relative;
+      background: linear-gradient(170deg, var(--forest-green) 0%, var(--deep-green) 60%, var(--charcoal-green) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-image-inner {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 40px;
+    }
+    .hero-product-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-xl);
+      padding: 48px 40px;
+      backdrop-filter: blur(20px);
+      max-width: 360px;
+      margin: 0 auto;
+    }
+    .hero-product-icon {
+      width: 72px;
+      height: 72px;
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+    .hero-product-icon svg { width: 32px; height: 32px; stroke: var(--sage); opacity: 0.7; }
+    .hero-product-label {
+      font-family: var(--body);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(244, 239, 230, 0.45);
+      margin-bottom: 12px;
+    }
+    .hero-product-name {
+      font-family: var(--heading);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--warm-cream);
+      margin-bottom: 4px;
+    }
+    .hero-product-sub {
+      font-family: var(--body);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(244, 239, 230, 0.35);
+      margin-bottom: 28px;
+    }
+    .hero-product-meta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .hero-product-meta span {
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(244, 239, 230, 0.35);
+    }
+
+    /* Decorative circles on hero image */
+    .hero-image::before {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      border: 1px solid rgba(146, 178, 140, 0.08);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .hero-image::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 1px solid rgba(146, 178, 140, 0.05);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Hero floating badges */
+    .hero-float {
+      position: absolute;
+      z-index: 3;
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+      animation: float-gentle 5s ease-in-out infinite;
+    }
+    .hero-float-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hero-float-icon svg { width: 16px; height: 16px; }
+    .hero-float-text { font-size: 0.7rem; font-weight: 400; color: var(--deep-green); line-height: 1.3; }
+    .hero-float-text strong { display: block; font-weight: 700; }
+
+    .hero-float--1 { top: 15%; right: 10%; animation-delay: 0s; }
+    .hero-float--2 { bottom: 18%; left: 8%; animation-delay: -2.5s; }
+
+    @keyframes float-gentle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* ── Trust Bar ── */
+    .trust-bar {
+      background: #fff;
+      border-bottom: 1px solid rgba(18, 61, 45, 0.06);
+      padding: 20px 0;
+    }
+    .trust-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--charcoal-green);
+      opacity: 0.6;
+      letter-spacing: 0.02em;
+    }
+    .trust-item svg { width: 18px; height: 18px; stroke: var(--sage); flex-shrink: 0; }
+
+    /* ── Benefits Section (Rheal-style horizontal cards) ── */
+    .benefits {
+      padding: 72px 0 80px;
+      background: #fff;
+    }
+    .benefits-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+    .section-label {
+      font-family: var(--body);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 16px;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--heading);
+      font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--deep-green);
+      margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--charcoal-green);
+      opacity: 0.65;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .benefit-card {
+      background: var(--soft-ivory);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      text-align: center;
+      transition: all var(--transition);
+      border: 1px solid transparent;
+    }
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(18, 61, 45, 0.08);
+      border-color: rgba(18, 61, 45, 0.06);
+    }
+    .benefit-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--warm-cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .benefit-icon svg { width: 24px; height: 24px; stroke: var(--forest-green); }
+    .benefit-title {
+      font-family: var(--heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--deep-green);
+      margin-bottom: 8px;
+    }
+    .benefit-desc {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--charcoal-green);
+      opacity: 0.6;
+    }
+
+    /* ── Science / Ingredients Section ── */
+    .science {
+      padding: 80px 0;
+      background: var(--deep-green);
+      color: var(--warm-cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .science-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .science-content {}
+    .science-content .section-label { color: var(--sage); }
+    .science-content .section-title { color: var(--warm-cream); }
+    .science-content .section-desc { color: var(--warm-cream); opacity: 0.55; }
+
+    .science-list {
+      list-style: none;
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .science-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--warm-cream);
+      opacity: 0.7;
+    }
+    .science-list li svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--sage);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .science-cta { margin-top: 36px; }
+
+    /* Ingredient Cards Column */
+    .ingredient-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ingredient-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      transition: all var(--transition);
+    }
+    .ingredient-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateX(4px);
+    }
+    .ingredient-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(146, 178, 140, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .ingredient-icon svg { width: 22px; height: 22px; stroke: var(--sage); }
+    .ingredient-info { flex: 1; }
+    .ingredient-name {
+      font-family: var(--heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--warm-cream);
+      margin-bottom: 2px;
+    }
+    .ingredient-dosage {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted-gold);
+    }
+    .ingredient-studies {
+      font-size: 0.68rem;
+      color: rgba(244, 239, 230, 0.4);
+      white-space: nowrap;
+    }
+
+    /* ── Stats Band ── */
+    .stats-band {
+      background: var(--forest-green);
+      padding: 48px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      text-align: center;
+    }
+    .stat-value {
+      font-family: var(--heading);
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--warm-cream);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .stat-value span { color: var(--muted-gold); }
+    .stat-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(244, 239, 230, 0.4);
+    }
+
+    /* ── Testimonial Section (Rheal-style) ── */
+    .testimonial {
+      padding: 72px 0;
+      background: var(--soft-ivory);
+    }
+    .testimonial-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .testimonial-stars {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+      margin-bottom: 24px;
+    }
+    .testimonial-stars svg { width: 20px; height: 20px; fill: var(--muted-gold); stroke: none; }
+    .testimonial-quote {
+      font-family: var(--heading);
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--deep-green);
+      margin-bottom: 28px;
+    }
+    .testimonial-author {
+      font-size: 0.82rem;
+      color: var(--charcoal-green);
+      opacity: 0.6;
+    }
+    .testimonial-author strong {
+      display: block;
+      font-weight: 700;
+      opacity: 1;
+      color: var(--deep-green);
+      margin-bottom: 2px;
+    }
+    .testimonial-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 0.7rem;
+      color: var(--sage);
+    }
+    .testimonial-badge svg { width: 14px; height: 14px; stroke: var(--sage); }
+
+    /* ── CTA Banner ── */
+    .cta-banner {
+      padding: 64px 0;
+      background: var(--warm-cream);
+    }
+    .cta-banner-inner {
+      background: var(--deep-green);
+      border-radius: var(--radius-xl);
+      padding: 64px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner-inner::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(146, 178, 140, 0.08) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+    }
+    .cta-banner-inner::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201, 111, 58, 0.06) 0%, transparent 70%);
+      bottom: -80px;
+      left: -80px;
+    }
+    .cta-banner-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-banner-title {
+      font-family: var(--heading);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--warm-cream);
+      margin-bottom: 12px;
+    }
+    .cta-banner-desc {
+      font-size: 0.95rem;
+      color: var(--warm-cream);
+      opacity: 0.55;
+      margin-bottom: 28px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-banner-price {
+      font-family: var(--heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--muted-gold);
+      margin-bottom: 8px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #fff;
+      border-top: 1px solid rgba(18, 61, 45, 0.06);
+      padding: 48px 0 32px;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .footer-brand p {
+      font-size: 0.8rem;
+      color: var(--charcoal-green);
+      opacity: 0.5;
+      max-width: 260px;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-family: var(--heading);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--deep-green);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--charcoal-green);
+      opacity: 0.55;
+      padding: 3px 0;
+      transition: opacity var(--transition);
+    }
+    .footer-col a:hover { opacity: 1; color: var(--clay); }
+    .footer-bottom {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(18, 61, 45, 0.06);
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--charcoal-green);
+      opacity: 0.4;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; max-height: none; }
+      .hero-content {
+        padding: 48px clamp(1.25rem, 4vw, 2.5rem);
+        max-width: 100%;
+        text-align: center;
+        align-items: center;
+      }
+      .hero-subtitle { margin-left: auto; margin-right: auto; }
+      .hero-ctas { justify-content: center; }
+      .hero-social-proof { justify-content: center; }
+      .hero-image { min-height: 400px; }
+      .hero-float { display: none; }
+      .science-grid { grid-template-columns: 1fr; gap: 40px; }
+      .science-content { text-align: center; }
+      .science-content .section-desc { margin: 0 auto; }
+      .science-list { align-items: center; }
+      .science-cta { text-align: center; }
+      .benefits-grid { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-left { display: none; }
+      .mobile-toggle { display: flex; }
+      .logo { position: static; transform: none; }
+      .benefits-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
+      .hero-ctas { flex-direction: column; width: 100%; max-width: 340px; }
+      .hero-ctas .btn { width: 100%; }
+      .cta-banner-inner { padding: 48px 28px; }
+      .footer-inner { flex-direction: column; gap: 28px; }
+    }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up-d1 { transition-delay: 0.1s; }
+    .fade-up-d2 { transition-delay: 0.2s; }
+    .fade-up-d3 { transition-delay: 0.3s; }
+    .fade-up-d4 { transition-delay: 0.4s; }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <div class="announcement">
+    Free shipping on orders over $60 &nbsp;·&nbsp; <strong>Subscribe & save 20%</strong> &nbsp;·&nbsp; <a href="#">Shop now</a>
+  </div>
+
+  <!-- Navigation (Rheal-style: links left, logo center, actions right) -->
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <div class="nav-left">
+        <a href="#">Shop</a>
+        <a href="#">Science</a>
+        <a href="#">Our Story</a>
+      </div>
+
+      <a href="#" class="logo" aria-label="Botanical home">
+        <svg viewBox="0 0 260 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g transform="translate(85, 1)">
+            <!-- Leaf cluster -->
+            <g transform="translate(-30, 2)">
+              <path d="M14 28 C14 20, 14 14, 14 4" stroke="#123D2D" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+              <path d="M14 16 C10 14, 5 15, 3 11 C1.5 8, 3 3, 8.5 3 C12 3, 14 6.5, 14 10" fill="#174934" opacity="0.8"/>
+              <path d="M14 12 C18 10, 23 10, 25 6.5 C26.5 3, 25 0, 20 0 C16.5 0, 14 3.5, 14 7" fill="#123D2D"/>
+              <path d="M14 16 C11 14, 7 13, 5 9.5" stroke="#92B28C" stroke-width="0.4" fill="none" opacity="0.45" stroke-linecap="round"/>
+              <path d="M14 12 C17 10, 21 8.5, 23 5" stroke="#92B28C" stroke-width="0.4" fill="none" opacity="0.45" stroke-linecap="round"/>
+            </g>
+            <!-- Wordmark -->
+            <text x="0" y="24" font-family="'Gayathri', sans-serif" font-size="22" font-weight="700" fill="#123D2D" letter-spacing="4.5">BOTANICAL</text>
+          </g>
+        </svg>
+      </a>
+
+      <div class="nav-right">
+        <a href="#">Account</a>
+        <a href="#" class="cart-icon" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span class="cart-badge">0</span>
+        </a>
+        <button class="mobile-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge fade-up">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 22c0-8 0-8-8-14M12 22c0-8 0-8 8-14M12 22V8"/>
+          </svg>
+          Clinically Formulated
+        </div>
+
+        <h1 class="hero-title fade-up fade-up-d1">
+          Nourish your body from the root up
+        </h1>
+
+        <p class="hero-subtitle fade-up fade-up-d2">
+          A daily botanical protocol designed to restore gut integrity, reduce inflammation, and support whole-body vitality.
+        </p>
+
+        <div class="hero-ctas fade-up fade-up-d2">
+          <a href="#" class="btn btn-primary">
+            Shop Now
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a href="#science" class="btn btn-outline">Learn More</a>
+        </div>
+
+        <div class="hero-social-proof fade-up fade-up-d3">
+          <div class="hero-stars">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <span class="hero-rating"><strong>4.9</strong> from 2,340+ reviews</span>
+        </div>
+      </div>
+
+      <!-- Hero Image / Product Panel -->
+      <div class="hero-image">
+        <div class="hero-image-inner">
+          <div class="hero-product-card">
+            <div class="hero-product-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.2" stroke-linecap="round">
+                <path d="M12 22c0-8 0-8-8-14M12 22c0-8 0-8 8-14M12 22V8"/>
+                <circle cx="12" cy="5" r="3" fill="none"/>
+              </svg>
+            </div>
+            <div class="hero-product-label">Daily Botanical Complex</div>
+            <div class="hero-product-name">Botanical</div>
+            <div class="hero-product-sub">Gut Restore Protocol</div>
+            <div class="hero-product-meta">
+              <span>60 capsules</span>
+              <span>30-day supply</span>
+              <span>6 botanicals</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="hero-float hero-float--1">
+          <div class="hero-float-icon" style="background: rgba(146, 178, 140, 0.15);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#174934" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div class="hero-float-text"><strong>Third-Party Tested</strong>NSF Certified</div>
+        </div>
+
+        <div class="hero-float hero-float--2">
+          <div class="hero-float-icon" style="background: rgba(217, 178, 76, 0.12);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D9B24C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <div class="hero-float-text"><strong>94% saw results</strong>Within 14 days</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <div class="trust-bar">
+    <div class="container">
+      <div class="trust-bar-inner">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Third-party tested
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 22c0-8 0-8-8-14M12 22c0-8 0-8 8-14M12 22V8"/></svg>
+          100% plant-based
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Results in 14 days
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M4 19.5V4.5A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5z"/></svg>
+          Backed by 23+ studies
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          Free shipping over $60
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ BENEFITS ═══════════════ -->
+  <section class="benefits" id="benefits">
+    <div class="container">
+      <div class="benefits-header">
+        <span class="section-label fade-up">Why Botanical</span>
+        <h2 class="section-title fade-up fade-up-d1">One daily protocol,<br/>whole-body results</h2>
+        <p class="section-desc fade-up fade-up-d2">
+          Six synergistic botanicals working together to support gut health, reduce inflammation, and restore your natural vitality.
+        </p>
+      </div>
+
+      <div class="benefits-grid">
+        <div class="benefit-card fade-up">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Gut Barrier Support</h3>
+          <p class="benefit-desc">Restores and strengthens your intestinal lining for improved nutrient absorption and comfort.</p>
+        </div>
+        <div class="benefit-card fade-up fade-up-d1">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Inflammation Response</h3>
+          <p class="benefit-desc">Clinically-dosed curcumin and adaptogens help modulate your body's inflammatory pathways.</p>
+        </div>
+        <div class="benefit-card fade-up fade-up-d2">
+          <div class="benefit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 01-3.46 0"/>
+            </svg>
+          </div>
+          <h3 class="benefit-title">Daily Vitality</h3>
+          <p class="benefit-desc">Adaptogenic mushrooms and botanical extracts to support sustained energy throughout your day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SCIENCE / INGREDIENTS ═══════════════ -->
+  <section class="science" id="science">
+    <div class="container">
+      <div class="science-grid">
+        <div class="science-content">
+          <span class="section-label fade-up">Research-Backed</span>
+          <h2 class="section-title fade-up fade-up-d1">Every ingredient earns<br/>its place</h2>
+          <p class="section-desc fade-up fade-up-d2">
+            No proprietary blends. No fairy-dusting. Every botanical is dosed at clinically effective levels and backed by peer-reviewed research.
+          </p>
+          <ul class="science-list fade-up fade-up-d3">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Transparent dosing on every label
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Zero proprietary blends or fillers
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Third-party tested for purity
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              23+ clinical studies referenced
+            </li>
+          </ul>
+          <div class="science-cta fade-up fade-up-d4">
+            <a href="#" class="btn btn-white">
+              View Full Ingredient List
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="ingredient-cards">
+          <div class="ingredient-card fade-up">
+            <div class="ingredient-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 2C8 6 4 10 4 14a8 8 0 0016 0c0-4-4-8-8-12z"/>
+              </svg>
+            </div>
+            <div class="ingredient-info">
+              <div class="ingredient-name">Slippery Elm</div>
+              <div class="ingredient-dosage">400mg per serving</div>
+            </div>
+            <div class="ingredient-studies">3 studies</div>
+          </div>
+
+          <div class="ingredient-card fade-up fade-up-d1">
+            <div class="ingredient-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83"/>
+              </svg>
+            </div>
+            <div class="ingredient-info">
+              <div class="ingredient-name">Turmeric Extract</div>
+              <div class="ingredient-dosage">500mg · 95% curcuminoids</div>
+            </div>
+            <div class="ingredient-studies">12 studies</div>
+          </div>
+
+          <div class="ingredient-card fade-up fade-up-d2">
+            <div class="ingredient-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round">
+                <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+              </svg>
+            </div>
+            <div class="ingredient-info">
+              <div class="ingredient-name">Reishi Mushroom</div>
+              <div class="ingredient-dosage">300mg · dual extraction</div>
+            </div>
+            <div class="ingredient-studies">8 studies</div>
+          </div>
+
+          <div class="ingredient-card fade-up fade-up-d3">
+            <div class="ingredient-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22c0-8 0-8-8-14M12 22c0-8 0-8 8-14M12 22V8"/>
+              </svg>
+            </div>
+            <div class="ingredient-info">
+              <div class="ingredient-name">Marshmallow Root</div>
+              <div class="ingredient-dosage">350mg per serving</div>
+            </div>
+            <div class="ingredient-studies">5 studies</div>
+          </div>
+
+          <div class="ingredient-card fade-up fade-up-d4">
+            <div class="ingredient-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+              </svg>
+            </div>
+            <div class="ingredient-info">
+              <div class="ingredient-name">Ashwagandha KSM-66</div>
+              <div class="ingredient-dosage">600mg · full-spectrum</div>
+            </div>
+            <div class="ingredient-studies">14 studies</div>
+          </div>
+
+          <div class="ingredient-card fade-up fade-up-d4">
+            <div class="ingredient-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+              </svg>
+            </div>
+            <div class="ingredient-info">
+              <div class="ingredient-name">L-Glutamine</div>
+              <div class="ingredient-dosage">2g per serving</div>
+            </div>
+            <div class="ingredient-studies">10 studies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Band -->
+  <div class="stats-band">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="fade-up">
+          <div class="stat-value">94<span>%</span></div>
+          <div class="stat-label">Felt results in 14 days</div>
+        </div>
+        <div class="fade-up fade-up-d1">
+          <div class="stat-value">2M<span>+</span></div>
+          <div class="stat-label">Customers trust us</div>
+        </div>
+        <div class="fade-up fade-up-d2">
+          <div class="stat-value">23<span>+</span></div>
+          <div class="stat-label">Clinical studies</div>
+        </div>
+        <div class="fade-up fade-up-d3">
+          <div class="stat-value">4.9</div>
+          <div class="stat-label">Average rating</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TESTIMONIAL ═══════════════ -->
+  <section class="testimonial">
+    <div class="container">
+      <div class="testimonial-inner fade-up">
+        <div class="testimonial-stars">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <blockquote class="testimonial-quote">
+          "I've tried dozens of gut health supplements. Botanical is the first one where I genuinely felt a difference within two weeks. My bloating is gone and my energy is through the roof."
+        </blockquote>
+        <div class="testimonial-author">
+          <strong>Sarah M.</strong>
+          Verified Customer
+        </div>
+        <div class="testimonial-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Verified Purchase
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CTA BANNER ═══════════════ -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-banner-inner fade-up">
+        <div class="cta-banner-content">
+          <div class="cta-banner-price">Starting at $54 / month</div>
+          <h2 class="cta-banner-title">Ready to feel the difference?</h2>
+          <p class="cta-banner-desc">
+            Start your 30-day protocol today. Subscribe and save 20% with free shipping on every order.
+          </p>
+          <a href="#" class="btn btn-clay">
+            Start Your Protocol
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg viewBox="0 0 180 30" fill="none" xmlns="http://www.w3.org/2000/svg" height="26">
+            <g transform="translate(0, 1)">
+              <path d="M12 26 C12 18, 12 12, 12 4" stroke="#123D2D" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              <path d="M12 14 C9 12, 4 13, 2.5 10 C1 7, 2.5 3, 7 3 C10 3, 12 5.5, 12 8.5" fill="#174934" opacity="0.8"/>
+              <path d="M12 10 C15 8, 19 8, 21 5.5 C22.5 3, 21 0, 17 0 C14 0, 12 3, 12 6" fill="#123D2D"/>
+            </g>
+            <text x="28" y="21" font-family="'Gayathri', sans-serif" font-size="18" font-weight="700" fill="#123D2D" letter-spacing="3.5">BOTANICAL</text>
+          </svg>
+          <p>Science-rooted wellness, designed for daily vitality. Every ingredient earns its place.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <a href="#">Gut Restore Protocol</a>
+          <a href="#">Subscribe & Save</a>
+          <a href="#">Gift Sets</a>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <a href="#">Our Science</a>
+          <a href="#">Ingredients</a>
+          <a href="#">Blog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Support</h4>
+          <a href="#">FAQ</a>
+          <a href="#">Shipping</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 Botanical. All rights reserved. These statements have not been evaluated by the FDA.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    }, { passive: true });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
