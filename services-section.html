@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services Section — Ink Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #000;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       SERVICES SECTION
+    ============================================ */
+    .services-section {
+      background: #FFD700;
+      padding: 80px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .services-container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 48px;
+    }
+
+    .services-header-left {
+      max-width: 600px;
+    }
+
+    .services-label {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #000;
+      opacity: 0.6;
+      margin-bottom: 16px;
+    }
+
+    .services-title {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1.15;
+      color: #000;
+      letter-spacing: -0.5px;
+    }
+
+    .services-subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      color: #333;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    /* Card Grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    /* Individual Card */
+    .service-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      min-height: 420px;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card Number Badge */
+    .card-number {
+      position: absolute;
+      top: 36px;
+      right: 36px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #FFD700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #000;
+    }
+
+    /* Card Icon */
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon svg {
+      width: 48px;
+      height: 48px;
+      stroke: #000;
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    /* Card Title */
+    .card-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #000;
+      margin-top: 24px;
+      line-height: 1.3;
+    }
+
+    /* Card Intro */
+    .card-intro {
+      font-size: 15px;
+      font-weight: 400;
+      color: #555;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    /* Card Bullets */
+    .card-bullets {
+      list-style: none;
+      margin-top: 20px;
+      flex: 1;
+    }
+
+    .card-bullets li {
+      font-size: 14.5px;
+      font-weight: 400;
+      color: #333;
+      line-height: 1.7;
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .card-bullets li::before {
+      content: "→";
+      color: #D4A800;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Card Link */
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #000;
+      text-decoration: none;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      transition: gap 0.2s ease;
+    }
+
+    .card-link:hover {
+      gap: 12px;
+    }
+
+    .card-link svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    .card-link:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* Bottom CTA */
+    .services-cta {
+      text-align: center;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 40px;
+      background: #000;
+      color: #FFD700;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      border-radius: 60px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-subtext {
+      font-size: 14px;
+      color: #444;
+      margin-top: 12px;
+      font-weight: 400;
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1024px) {
+      .services-section {
+        padding: 64px 40px;
+      }
+
+      .services-title {
+        font-size: 34px;
+      }
+
+      .service-card {
+        padding: 32px 28px;
+        min-height: 380px;
+      }
+
+      .card-title {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .services-section {
+        padding: 48px 20px;
+      }
+
+      .services-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .services-title {
+        font-size: 28px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .service-card {
+        padding: 28px 24px;
+        min-height: auto;
+      }
+
+      .card-number {
+        top: 28px;
+        right: 24px;
+      }
+
+      .card-title {
+        font-size: 19px;
+      }
+
+      .cta-button {
+        width: 100%;
+        justify-content: center;
+        padding: 16px 32px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .services-section {
+        padding: 40px 16px;
+      }
+
+      .services-title {
+        font-size: 24px;
+      }
+
+      .service-card {
+        padding: 24px 20px;
+      }
+
+      .card-icon {
+        width: 44px;
+        height: 44px;
+      }
+
+      .card-icon svg {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="services-section">
+    <div class="services-container">
+
+      <!-- Header -->
+      <div class="services-header">
+        <div class="services-header-left">
+          <p class="services-label">Our Services</p>
+          <h2 class="services-title">Four Ways We Turn Your UX Into Revenue</h2>
+          <p class="services-subtitle">Each service is built to solve a specific growth problem — pick one or combine all four.</p>
+        </div>
+      </div>
+
+      <!-- Card Grid -->
+      <div class="services-grid">
+
+        <!-- Card 1: Strategic UX Research -->
+        <div class="service-card">
+          <span class="card-number">01</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="14"/>
+              <line x1="30" y1="30" x2="42" y2="42" stroke-linecap="round"/>
+              <path d="M14 20h12M20 14v12" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Strategic UX Research</h3>
+          <p class="card-intro">Find what's costing you conversions — before you design a single screen.</p>
+          <ul class="card-bullets">
+            <li>User behavior analysis & heatmaps</li>
+            <li>Conversion funnel audit</li>
+            <li>Competitor UX teardown</li>
+            <li>Data-backed design roadmap</li>
+          </ul>
+          <a href="/service/ux-research" class="card-link">
+            Learn more
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 2: Product UX & UI Design -->
+        <div class="service-card">
+          <span class="card-number">02</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="6" width="36" height="36" rx="4"/>
+              <rect x="14" y="14" width="20" height="20" rx="2"/>
+              <line x1="6" y1="16" x2="14" y2="16" stroke-linecap="round"/>
+              <line x1="34" y1="16" x2="42" y2="16" stroke-linecap="round"/>
+              <line x1="24" y1="6" x2="24" y2="14" stroke-linecap="round"/>
+              <line x1="24" y1="34" x2="24" y2="42" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Product UX & UI Design</h3>
+          <p class="card-intro">Turn confused users into power users with interfaces that just work.</p>
+          <ul class="card-bullets">
+            <li>Wireframes & prototypes tested before Hi-Fi</li>
+            <li>Interfaces that reduce friction</li>
+            <li>Design systems that scale as you grow</li>
+            <li>Dev-ready handoffs — zero back-and-forth</li>
+          </ul>
+          <a href="/service/ui-ux-design" class="card-link">
+            Learn more
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 3: Conversion Optimization (CRO) -->
+        <div class="service-card">
+          <span class="card-number">03</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <polyline points="6,36 16,24 24,30 36,14 42,10" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="32,10 42,10 42,20" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="6" y1="42" x2="42" y2="42" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Conversion Optimization (CRO)</h3>
+          <p class="card-intro">Find and fix the leaks in your funnel — so every visitor counts.</p>
+          <ul class="card-bullets">
+            <li>Landing pages that convert 2-3x industry average</li>
+            <li>Improve ad spend ROI without spending more</li>
+            <li>A/B tested — every change backed by data</li>
+            <li>Full-funnel audit from click to conversion</li>
+          </ul>
+          <a href="/service/cro" class="card-link">
+            Learn more
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Card 4: Webflow Development -->
+        <div class="service-card">
+          <span class="card-number">04</span>
+          <div class="card-icon">
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="8" width="40" height="28" rx="3"/>
+              <line x1="16" y1="42" x2="32" y2="42" stroke-linecap="round"/>
+              <line x1="24" y1="36" x2="24" y2="42" stroke-linecap="round"/>
+              <polyline points="16,20 12,24 16,28" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="32,20 36,24 32,28" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="22" y1="18" x2="26" y2="30" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Webflow Development</h3>
+          <p class="card-intro">Pixel-perfect sites that load fast, rank higher, and convert visitors.</p>
+          <ul class="card-bullets">
+            <li>SEO-optimized, responsive builds</li>
+            <li>WordPress & Framer to Webflow migration</li>
+            <li>Custom CMS & third-party integrations</li>
+            <li>Ongoing support — nothing breaks after launch</li>
+          </ul>
+          <a href="/service/webflow" class="card-link">
+            Learn more
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="services-cta">
+        <a href="/contact" class="cta-button">
+          Book Your Free Strategy Call
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <p class="cta-subtext">Not sure which service you need? We'll figure it out together — 30 min, no obligation.</p>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
